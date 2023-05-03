@@ -34,8 +34,9 @@
 #ifndef HistoManager_h
 #define HistoManager_h 1
 
-#include "G4AnalysisManager.hh"
+#include "g4analysis.hh"
 #include "globals.hh"
+#include "G4UnitsTable.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 namespace MdmPpacSim

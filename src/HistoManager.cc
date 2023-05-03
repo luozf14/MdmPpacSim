@@ -57,12 +57,11 @@ namespace MdmPpacSim
         // Create or get analysis manager
         // The choice of analysis technology is done via selection of a namespace
         // in HistoManager.hh
-        G4AnalysisManager *analysisManager = G4AnalysisManager::Instance();
+        G4AnalysisManager *analysisManager = G4Analysis::ManagerInstance("root");
 
         if (!fFactoryOn)
         {
             //
-            analysisManager->SetDefaultFileType("root");
             analysisManager->SetVerboseLevel(1);
             // Only merge in MT mode to avoid warning when running in Sequential mode
 #ifdef G4MULTITHREADED
