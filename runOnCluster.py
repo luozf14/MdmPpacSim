@@ -10,13 +10,13 @@ def run_sim(index) :
   config["ProcessNumber"] = index
   with open("config_stage1~{0}.json".format(index),"w") as outfile :
     json.dump(config,outfile,indent = 4)
-  subprocess.call(["./MdmPpacSim","config_stage1~{0}.json".format(index)])
+  subprocess.call(["source /usr/local/root6/bin/thisroot.sh;", "./MdmPpacSim","config_stage1~{0}.json".format(index)])
 
   # Stage2
   config["IsTargetChamber"] = False
   with open("config_stage2~{0}.json".format(index),"w") as outfile :
     json.dump(config,outfile,indent = 4)
-  subprocess.call(["./MdmPpacSim","config_stage2~{0}.json".format(index)])
+  subprocess.call(["source /usr/local/root6/bin/thisroot.sh;", "./MdmPpacSim","config_stage2~{0}.json".format(index)])
 
   subprocess.call(["hdfs", "dfs", "-moveFromLocal", "-f", "Stage1~{0}.root".format(index), "/user/luozf/MdmPpacSimResults/Stage1~{0}.root".format(index)])
   subprocess.call(["rm", "-rf", "Stage1~{0}.root".format(index)])
