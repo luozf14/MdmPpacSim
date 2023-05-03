@@ -2,6 +2,7 @@ from pyspark import StorageLevel, SparkFiles, SparkContext, SparkConf
 import subprocess,time,json,os
 
 def run_sim(index) :
+  subprocess.call("source /usr/local/root6/bin/thisroot.sh;",shell=True)
   # Stage1
   with open("config.json") as infile :
     config = json.load(infile)
@@ -30,6 +31,6 @@ if __name__ == "__main__" :
   sc.addFile(current_path+'/run.mac')
   sc.addFile(current_path+'/config/config.json')
 
-  distData = sc.parallelize(range(0,1),1)
+  distData = sc.parallelize(range(0,2),2)
 
   distData.foreach(lambda x: run_sim(x))
