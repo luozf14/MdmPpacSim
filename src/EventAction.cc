@@ -39,8 +39,6 @@
 #include "G4SystemOfUnits.hh"
 #include "G4UnitsTable.hh"
 
-#include <filesystem>
-
 namespace MdmPpacSim
 {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
