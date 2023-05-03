@@ -31,6 +31,7 @@ if __name__ == "__main__" :
   sc.addFile(current_path+'/run.mac')
   sc.addFile(current_path+'/config/config.json')
   sc.addFile("/backup/usr/local/root_v6.14.00/lib/libImt.so")
+  sc.addFile("/backup/usr/local/root_v6.14.00/lib/libMultiProc.so")
 
   distData = sc.parallelize(range(0,1),1)
 
