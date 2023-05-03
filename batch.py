@@ -2,6 +2,9 @@ from pyspark import StorageLevel, SparkFiles, SparkContext, SparkConf
 import subprocess,time,json,os
 
 def run_sim(index) :
+  runcmd = 'rpm -qa | grep -qw gcc-c++ || yum install -y gcc-c++'
+  subprocess.call([runcmd],shell=True)
+
   # Stage1
   with open("config.json") as infile :
     config = json.load(infile)
