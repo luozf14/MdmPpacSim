@@ -15,9 +15,9 @@ if __name__ == "__main__" :
   sconf = SparkConf().setAppName("MdmPpacSim")
   sc = SparkContext(conf=sconf)
     
-  sc.addFile("MdmPpacSim")
+  sc.addFile("build/MdmPpacSim")
+  sc.addFile("build/run.mac")
   sc.addFile("config/config.json")
-  sc.addFile("macros/run.mac")
 
   distData = sc.parallelize(range(0,5),5)
 
