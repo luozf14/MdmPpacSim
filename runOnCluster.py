@@ -23,6 +23,7 @@ if __name__ == "__main__" :
   sc = SparkContext(conf=sconf)
 
   current_path = os.getcwd() 
+  print(current_path)
   sc.addFile(current_path+'/build/MdmPpacSim')
   sc.addFile(current_path+'/run.mac')
   sc.addFile(current_path+'/config/config.json')
