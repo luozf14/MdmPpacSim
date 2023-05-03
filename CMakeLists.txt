@@ -55,7 +55,7 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh ${PROJECT_SOURCE_DIR}/inclu
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(MdmPpacSim MdmPpacSim.cc ${sources} ${add_sources} ${headers} ${add_headers})
-target_link_libraries(MdmPpacSim ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES} ${ROOT_LIBRARIES})
+target_link_libraries(MdmPpacSim ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES} ROOT::Physics)
 
 # ----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
