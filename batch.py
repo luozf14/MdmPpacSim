@@ -31,7 +31,7 @@ if __name__ == "__main__" :
   sc.addFile(current_path+'/build/MdmPpacSim')
   sc.addFile(current_path+'/run.mac')
   sc.addFile(current_path+'/config/config.json')
-
+  sc.addFile('/usr/local/lib/libxerces-c-3.2.so')
   distData = sc.parallelize(range(0,2),2)
 
   distData.foreach(lambda x: run_sim(x))
