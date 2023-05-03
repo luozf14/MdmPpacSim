@@ -17,8 +17,8 @@ def run_sim(index) :
     json.dump(config,outfile,indent = 4)
   subprocess.call(["./MdmPpacSim", "config_stage2~{0}.json".format(index)])
 
-  subprocess.call(["rm", "-rf", "config_stage1~{0}.json".format(index)],shell=True)
-  subprocess.call(["rm", "-rf", "config_stage2~{0}.json".format(index)],shell=True)
+  subprocess.call(["rm", "config_stage1~{0}.json".format(index)],shell=True)
+  subprocess.call(["rm", "config_stage2~{0}.json".format(index)],shell=True)
 
 if __name__ == "__main__" :
   sconf = SparkConf().setAppName("MdmPpacSim")
