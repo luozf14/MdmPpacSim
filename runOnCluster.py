@@ -11,7 +11,7 @@ def run_sim(index) :
   subprocess.call(["./MdmPpacSim","config_stage1~{0}.json".format(index)])
 
   # Stage2
-  config["IsTargetChamber"] = "false"
+  config["IsTargetChamber"] = False
   with open("config_stage2~{0}.json".format(index),"w") as outfile :
     json.dump(config,outfile,indent = 4)
   subprocess.call(["./MdmPpacSim","config_stage2~{0}.json".format(index)])
