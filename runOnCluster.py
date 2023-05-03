@@ -3,6 +3,8 @@ import subprocess,time,json,os
 
 def run_sim(index) :
   subprocess.call("source /usr/local/root6/bin/thisroot.sh",shell=True)
+  subprocess.call("source /usr/local/geant4_10.6/bin/geant4.sh",shell=True)
+  subprocess.call("source /usr/local/geant4_10.6/share/Geant4-10.6.2/geant4make/geant4make.sh",shell=True)
   
   # Stage1
   with open("config.json") as infile :
