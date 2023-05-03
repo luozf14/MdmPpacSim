@@ -67,7 +67,7 @@ namespace MdmPpacSim
 #ifdef G4MULTITHREADED
             analysisManager->SetNtupleMerging(true);
 #endif
-
+            analysisManager->SetCompressionLevel(2);
             // Create directories
             //   analysisManager->SetHistoDirectoryName("histo");
             //   analysisManager->SetNtupleDirectoryName("ntuple");
