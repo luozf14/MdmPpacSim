@@ -6,7 +6,7 @@ project(MdmPpacSim)
 enable_language(Fortran)
 SET(CMAKE_Fortran_FLAGS "-fPIC -finit-local-zero -falign-commons -fno-automatic -ffixed-line-length-none -w")
 
-SET(CMAKE_CXX_STANDARD 17)
+SET(CMAKE_CXX_STANDARD 14)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 SET(CMAKE_BUILD_TYPE "Debug")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
