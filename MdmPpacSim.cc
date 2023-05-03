@@ -17,7 +17,6 @@
 #include "G4DecayPhysics.hh"
 #include "G4StoppingPhysics.hh"
 #include "G4StepLimiterPhysics.hh"
-#include "ShieldingLEND.hh"
 
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
