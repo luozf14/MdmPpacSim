@@ -3,8 +3,6 @@ import subprocess,time,json,os
 
 def run_sim(index) :
   subprocess.call("source /usr/local/root6/bin/thisroot.sh",shell=True)
-  subprocess.call("source /usr/local/geant4_10.6/bin/geant4.sh",shell=True)
-  subprocess.call("source /usr/local/geant4_10.6/share/Geant4-10.6.2/geant4make/geant4make.sh",shell=True)
   
   # Stage1
   with open("config.json") as infile :
@@ -32,6 +30,7 @@ if __name__ == "__main__" :
   sc.addFile(current_path+'/build/MdmPpacSim')
   sc.addFile(current_path+'/run.mac')
   sc.addFile(current_path+'/config/config.json')
+  sc.addFile("/backup/usr/local/root_v6.14.00/lib/libImt.so")
 
   distData = sc.parallelize(range(0,1),1)
 
