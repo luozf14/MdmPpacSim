@@ -45,17 +45,17 @@ include_directories(${PROJECT_SOURCE_DIR}/include
 # Locate sources and headers for this project
 # NB: headers are included so they will show up in IDEs
 #
-file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc)
-file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
+file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc ${PROJECT_SOURCE_DIR}/src/MDMTrace.cpp ${PROJECT_SOURCE_DIR}/src/RAYTKIN1.F )
+file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh ${PROJECT_SOURCE_DIR}/include/MDMTrace.h)
 
-add_library(MDMTrace SHARED src/MDMTrace.cpp src/RAYTKIN1.F include/MDMTrace.h)
-target_link_libraries(MDMTrace c gfortran)
+# add_library(MDMTrace SHARED src/MDMTrace.cpp src/RAYTKIN1.F include/MDMTrace.h)
+# target_link_libraries(MDMTrace c gfortran)
 
 # ----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(MdmPpacSim MdmPpacSim.cc ${sources} ${add_sources} ${headers} ${add_headers})
-target_link_libraries(MdmPpacSim ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES} ${ROOT_LIBRARIES} MDMTrace)
+target_link_libraries(MdmPpacSim ${Geant4_LIBRARIES} ${HBOOK_LIBRARIES} ${ROOT_LIBRARIES})
 
 # ----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
