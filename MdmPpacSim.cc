@@ -106,8 +106,7 @@ int main(int argc, char **argv)
     G4Random::setTheEngine(new CLHEP::MTwistEngine);
     // G4Random::setTheEngine(new CLHEP::RanecuEngine);
     // set random seed with system time
-    G4long seed = time(NULL);
-    CLHEP::HepRandom::setTheSeed(seed);
+    CLHEP::HepRandom::setTheSeed(processNum);
 
     // Construct the default run manager
     //
