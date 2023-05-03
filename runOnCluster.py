@@ -1,5 +1,5 @@
 from pyspark import StorageLevel, SparkFiles, SparkContext, SparkConf
-import subprocess,time,json
+import subprocess,time,json,os
 
 def run_sim(index) :
   # Stage1
@@ -21,10 +21,11 @@ def run_sim(index) :
 if __name__ == "__main__" :
   sconf = SparkConf().setAppName("MdmPpacSim")
   sc = SparkContext(conf=sconf)
-    
-  sc.addFile("./build/MdmPpacSim")
-  sc.addFile("./run.mac")
-  sc.addFile("./config/config.json")
+
+  current_path = os.getcwd() 
+  sc.addFile(current_path+"/build/MdmPpacSim")
+  sc.addFile(current_path+"/run.mac")
+  sc.addFile(current_path+"/config/config.json")
 
   distData = sc.parallelize(range(0,1),1)
 
