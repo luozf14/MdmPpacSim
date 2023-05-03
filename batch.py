@@ -34,9 +34,10 @@ if __name__ == "__main__" :
   sc.addFile(current_path+'/build/MdmPpacSim')
   sc.addFile(current_path+'/run.mac')
   sc.addFile(current_path+'/config/config.json')
-  sc.addFile("/usr/local/lib/libicui18n.so.50")
-  sc.addFile("/usr/local/lib/libicuuc.so.50")
-  sc.addFile("/usr/local/lib/libicudata.so.50")
+  sc.addFile('/usr/local/lib/libxerces-c-3.2.so')
+  sc.addFile("/lib64/libicui18n.so.50")
+  sc.addFile("/lib64/libicuuc.so.50")
+  sc.addFile("/lib64/libicudata.so.50")
   distData = sc.parallelize(range(0,2),2)
 
   distData.foreach(lambda x: run_sim(x))
