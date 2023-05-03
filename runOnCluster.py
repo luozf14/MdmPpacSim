@@ -2,8 +2,8 @@ from pyspark import StorageLevel, SparkFiles, SparkContext, SparkConf
 import subprocess,time,json,os
 
 def run_sim(index) :
-  subprocess.call("source /usr/local/root6/bin/thisroot.sh",shell=True)
-  
+  subprocess.call("source /usr/local/root6/bin/thisroot.sh;which root",shell=True)
+
   # Stage1
   with open("config.json") as infile :
     config = json.load(infile)
