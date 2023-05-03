@@ -24,11 +24,8 @@ if __name__ == "__main__" :
   sconf = SparkConf().setAppName("MdmPpacSim")
   sc = SparkContext(conf=sconf)
 
-  # Below are only for run on cluster, should be commented when run on local
-  current_path = os.getcwd() 
   subprocess.call('cp build/MdmPpacSim .',shell=True)
   subprocess.call('cp config/config.json .',shell=True)
-
 
   distData = sc.parallelize(range(0,2),2)
 
