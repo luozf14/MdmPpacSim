@@ -6,6 +6,7 @@ def run_sim(index) :
   with open("config.json") as infile :
     config = json.load(infile)
   config["ProcessNumber"] = index
+  config["IsTargetChamber"] = True
   with open("config_stage1~{0}.json".format(index),"w") as outfile :
     json.dump(config,outfile,indent = 4)
   subprocess.call(["./MdmPpacSim","config_stage1~{0}.json".format(index)],shell=True)
