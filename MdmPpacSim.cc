@@ -46,6 +46,7 @@ int main(int argc, char **argv)
     // Parse the configure JSON file
     //
     std::string configFile = argv[1];
+    G4cout << configFile << G4endl;
     std::ifstream configStream(configFile.c_str());
     json config = json::parse(configStream);
     // main level
