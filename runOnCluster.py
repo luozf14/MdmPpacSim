@@ -8,7 +8,7 @@ def run_sim(index) :
   with open("config_{0}.json".format(index),"w") as outfile :
     json.dump(config,outfile,indent = 4)
   subprocess.call(["./MdmPpacSim","config_{0}.json".format(index)])
-#   subprocess.call(["mv","MM_{0}.root".format(index),"/hdfs/user/rogachev/TexAtSimResults/alpha/fe"])
+  subprocess.call(["mv","Stage1~{0}.root".format(index),"/hdfs/user/luozf/MdmPpacSimResults/"])
 #   subprocess.call(["/usr/local/hadoop/bin/hdfs","dfs","-chown","rogachev","/user/rogachev/TexAtSimResults/alpha/fe/MM_{0}.root".format(index)])
 
 if __name__ == "__main__" :
