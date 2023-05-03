@@ -22,8 +22,8 @@ if __name__ == "__main__" :
   sconf = SparkConf().setAppName("MdmPpacSim")
   sc = SparkContext(conf=sconf)
 
+  # Below are only for run on cluster, should be commented when run on local
   current_path = os.getcwd() 
-  print(current_path)
   sc.addFile(current_path+'/build/MdmPpacSim')
   sc.addFile(current_path+'/run.mac')
   sc.addFile(current_path+'/config/config.json')
