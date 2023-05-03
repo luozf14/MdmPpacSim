@@ -23,9 +23,9 @@ if __name__ == "__main__" :
   sc = SparkContext(conf=sconf)
 
   current_path = os.getcwd() 
-  sc.addFile(current_path+"/build/MdmPpacSim")
-  sc.addFile(current_path+"/run.mac")
-  sc.addFile(current_path+"/config/config.json")
+  sc.addFile([current_path, "/build/MdmPpacSim"])
+  sc.addFile([current_path, "/run.mac"])
+  sc.addFile([current_path, "/config/config.json"])
 
   distData = sc.parallelize(range(0,1),1)
 
