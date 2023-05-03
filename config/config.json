@@ -1,0 +1,22 @@
+{
+    "GUI": false,
+    "RunMacro": "run.mac",
+    "ProcessNumber": 0,
+    "IsTargetChamber": false,
+    "BeamEnergy": 40.0,
+    "TargetThicknessInUm": 0.706,
+    "TargetRotationAngleInDeg": 22.5,
+    "SiDetectorAngleInDeg": 81.15,
+    "SiDetectorDistanceInCm": 14.224,
+    "MdmAngleInDeg": 35.3,
+    "PpacGasPressureInTorr": 4,
+    "PpacLengthInCm": 42,
+    "SiDetectorEnergyResolution": 0.03,
+    "TdcResolutionInNs": 0.25,
+    "PpacPositionResolutionInMm": 6.3,
+    "MdmMultipoleProbe": 1668,
+    "MdmDipoleProbe": 2349.4,
+    "Target": [6, 12],
+    "LightProduct": [2, 4],
+    "HeavyProduct": [6, 12]
+}

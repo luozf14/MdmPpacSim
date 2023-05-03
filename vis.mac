@@ -1,0 +1,108 @@
+#
+# Start drawing
+#
+/vis/open OGL 600x600-0+0
+/vis/drawVolume
+
+#
+# To avoid excessive redrawing on immediate viewers
+#
+/vis/viewer/set/autoRefresh false
+
+#
+# To turn off unwanted visualization messages on the console
+#
+/vis/verbose errors #errors, all...
+
+#
+# Controlling the viewpoint and zoom
+#
+/vis/viewer/set/viewpointThetaPhi 90. 90.
+#/vis/viewer/set/viewpointVector 0 -1 0
+/vis/viewer/set/lightsVector 0 0 1
+/vis/viewer/zoom 1.
+/vis/viewer/set/style s # wireframe, surface
+
+#
+# Add axes, trajectories and hits
+#
+/vis/scene/add/trajectories rich # smooth, rich
+/vis/scene/add/axes 0 0 0 30 cm # axes [x0] [y0] [z0] [length] [unit]
+/vis/scene/add/hits
+
+#
+# Visualizing step points
+#
+/vis/modeling/trajectories/create/drawByCharge
+/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
+/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 2
+
+#
+# Basic trajectory modeling (color)
+#
+#/vis/modeling/trajectories/create/drawByParticleID
+#/vis/modeling/trajectories/drawByParticleID-0/set e- yellow
+
+#
+# Accumulating trajectories and hits
+#
+/vis/scene/endOfEventAction accumulate
+#/vis/scene/endOfRunAction accumulate
+
+#
+# Filtering Trajectories
+#
+#/vis/filtering/trajectories/create/particleFilter
+#/vis/filtering/trajectories/particleFilter-0/add gamma
+#/vis/filtering/trajectories/particleFilter-0/invert true
+
+#
+# Hidden Line Removal
+#
+#/vis/viewer/set/hiddenEdge 1 # Hide edges
+#/vis/viewer/set/hiddenMarker 1 # High trajectories and hits
+
+#
+# To force output of a new file
+#
+/vis/viewer/flush
+
+
+#########################################
+##############Extra setting##############
+#########################################
+
+#
+# Add texts
+#
+/vis/set/textColour green # Default text colour is blue
+/vis/set/textLayout right # Default left-adjusted layout, here make it right-adjusted
+
+#
+# Axes, scale, etc.
+#
+#/vis/scene/add/scale 3 cm z 1 0 0 manual 0. -6. 12.5 cm # scale [length] [unit] [direction] [red] [green] [blue] [auto|manual] [xmid] [ymid] [zmid] [unit]
+#/vis/scene/add/axes    # Simple axes: x=red, y=green, z=blue.
+#/vis/scene/add/eventID # Drawn at end of event
+/vis/scene/add/date    # Date stamp
+#/vis/scene/add/logo2D  # Simple logo
+#/vis/scene/add/logo    # 3D logo
+
+#
+# Frame
+#
+#/vis/set/colour red
+#/vis/set/lineWidth 2
+#/vis/scene/add/frame   # Simple frame around the view
+#/vis/set/colour        # Revert to default colour (white)
+#/vis/set/lineWidth     # Revert to default line width (1.)#
+
+#
+# Manipulate volumes
+#
+/vis/geometry/set/visibility LogicWorld 0 false # Make "LogicWorld" invisible
+/vis/geometry/set/colour LogicDeltaE 0 0 1 0 1 # colour [logical-volume-name] [depth] [red] [green] [blue] [opacity]
+/vis/geometry/set/colour LogicSi 0 0 1 0 1 # colour [logical-volume-name] [depth] [red] [green] [blue] [opacity]
+/vis/geometry/set/colour LogicSlitBox 0 1 1 1 0.7 # colour [logical-volume-name] [depth] [red] [green] [blue] [opacity]
+
+/vis/viewer/set/autoRefresh true
