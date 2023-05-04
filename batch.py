@@ -12,14 +12,14 @@ def run_sim(index) :
   config["IsTargetChamber"] = True
   with open("config_stage1~{0}.json".format(index),"w") as outfile :
     json.dump(config,outfile,indent = 4)
-  runcmd = 'source /usr/local/geant4/bin/geant4.sh; source /usr/local/root6/bin/thisroot.sh; ./MdmPpacSim '+'config_stage1~{0}.json'.format(index)
+  runcmd = 'source /opt/new/share/Geant4-10.6.2/bin/geant4.sh; source /usr/local/root6/bin/thisroot.sh; ./MdmPpacSim '+'config_stage1~{0}.json'.format(index)
   subprocess.call([runcmd],shell=True)
 
   # Stage2
   config["IsTargetChamber"] = False
   with open("config_stage2~{0}.json".format(index),"w") as outfile :
     json.dump(config,outfile,indent = 4)
-  runcmd = 'source /usr/local/geant4/bin/geant4.sh; source /usr/local/root6/bin/thisroot.sh; ./MdmPpacSim '+'config_stage2~{0}.json'.format(index)
+  runcmd = 'source /opt/new/share/Geant4-10.6.2/bin/geant4.sh; source /usr/local/root6/bin/thisroot.sh; ./MdmPpacSim '+'config_stage2~{0}.json'.format(index)
   subprocess.call([runcmd],shell=True)
 
   subprocess.call(["hdfs", "dfs", "-moveFromLocal", "-f", "Stage1~{0}.root".format(index), "/user/luozf/MdmPpacSimResults/Stage1~{0}.root".format(index)])
