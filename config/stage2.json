@@ -2,7 +2,7 @@
     "GUI": false,
     "RunMacro": "run.mac",
     "ProcessNumber": 0,
-    "IsTargetChamber": true,
+    "IsTargetChamber": false,
     "BeamEnergy": 40.0,
     "TargetThicknessInUm": 0.706,
     "TargetRotationAngleInDeg": 22.5,

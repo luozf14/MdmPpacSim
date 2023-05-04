@@ -1,0 +1,15 @@
+Universe        = vanilla
+Notification    = Complete
+Notify_user     = luozf@tamu.edu
+GetEnv			= True
+Rank			= kflops
+Should_transfer_files = YES
+When_to_transfer_output = ON_EXIT
+Executable      = /data/grgroup/gr01/luozf/MdmPpacSimFile/condor/batch.sh
+Arguments       = "$(Process)"
+Transfer_input_files = /home/grgroup/luozf/MdmPpacSim/build/MdmPpacSim,/home/grgroup/luozf/MdmPpacSim/rayin.dat,/home/grgroup/luozf/MdmPpacSim/config/stage1.json,/home/grgroup/luozf/MdmPpacSim/config/stage2.json,/home/grgroup/luozf/MdmPpacSim/run.mac
+Log 			= test_condor.log
+Error 			= error.txt
+Output          = output.txt
+queue 50
+
