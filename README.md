@@ -7,6 +7,7 @@ TODO
 - CMake>=3.16
 
 ## How to use
+TODO. Below are not useful at all.
 ### Compile
 Make a build directory and enter it.
 ```
