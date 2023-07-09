@@ -221,7 +221,8 @@ namespace MdmPpacSim
                 ppac1HitLocalPosition += (*hcPpac1)[i]->GetLocalPosition();
             }
             ppac1HitLocalPosition = (nofHitsPpac1 > 0) ? ppac1HitLocalPosition / nofHitsPpac1 : G4ThreeVector(0., 0., 0.);
-            ppac1HitTime = (nofHitsPpac1 > 0) ? (ppac1HitTime / nofHitsPpac1 + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
+            // ppac1HitTime = (nofHitsPpac1 > 0) ? (ppac1HitTime / nofHitsPpac1 + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
+            ppac1HitTime = (nofHitsPpac1 > 0) ? G4RandGauss::shoot(ppac1HitTime / nofHitsPpac1, fTdcResolutionInNs * ns / 2.355) : 0.;
             ppac1HitEnergy = (nofHitsPpac1 > 0) ? ppac1HitEnergy / nofHitsPpac1 : 0.;
             G4double ppac1PosX = (nofHitsPpac1 > 0) ? G4RandGauss::shoot(ppac1HitLocalPosition.x(), fPpacPositionResolutionInMm * mm / 2.355) : 0.;
             G4double ppac1PosY = (nofHitsPpac1 > 0) ? G4RandGauss::shoot(ppac1HitLocalPosition.y(), fPpacPositionResolutionInMm * mm / 2.355) : 0.;
@@ -242,7 +243,8 @@ namespace MdmPpacSim
                 ppac2HitLocalPosition += (*hcPpac2)[i]->GetLocalPosition();
             }
             ppac2HitLocalPosition = (nofHitsPpac2 > 0) ? ppac2HitLocalPosition / nofHitsPpac2 : G4ThreeVector(0., 0., 0.);
-            ppac2HitTime = (nofHitsPpac2 > 0) ? (ppac2HitTime / nofHitsPpac2 + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
+            // ppac2HitTime = (nofHitsPpac2 > 0) ? (ppac2HitTime / nofHitsPpac2 + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
+            ppac2HitTime = (nofHitsPpac1 > 0) ? G4RandGauss::shoot(ppac2HitTime / nofHitsPpac2, fTdcResolutionInNs * ns / 2.355) : 0.;
             ppac2HitEnergy = (nofHitsPpac2 > 0) ? ppac2HitEnergy / nofHitsPpac2 : 0.;
             G4double ppac2PosX = (nofHitsPpac2 > 0) ? G4RandGauss::shoot(ppac2HitLocalPosition.x(), fPpacPositionResolutionInMm * mm / 2.355) : 0.;
             G4double ppac2PosY = (nofHitsPpac2 > 0) ? G4RandGauss::shoot(ppac2HitLocalPosition.y(), fPpacPositionResolutionInMm * mm / 2.355) : 0.;
