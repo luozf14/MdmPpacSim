@@ -15,7 +15,7 @@ Double_t mb = 4. * 931.49 + 2.42491587;
 Double_t mB = 12 * 931.49;
 Double_t mHe = 4. * 931.49 + 2.42491587;
 Double_t mC12 = 12. * 931.49;
-Double_t Ea = 39.972; // 40MeV alpha after 0.00035mm carbon
+Double_t Ea = 39.9; // 40MeV alpha after 0.00035mm carbon
 TVector3 beamMomentum(0., 0., std::sqrt(2. * ma * Ea));
 Double_t siAngle = 81.15;
 Double_t rE = 14.224; // distance between center of E detector and target
@@ -23,8 +23,8 @@ Double_t L = 5.;      // length of E detector
 
 void plotHisto()
 {
-    TFile *file1 = new TFile("Stage1~0.root", "READ");
-    TFile *file2 = new TFile("Stage2~0.root", "READ");
+    TFile *file1 = new TFile("Stage1.root", "READ");
+    TFile *file2 = new TFile("Stage2.root", "READ");
 
     TTree *simData1 = (TTree *)file1->Get("Stage1Data");
     TTree *simData2 = (TTree *)file2->Get("Stage2Data");
@@ -35,12 +35,13 @@ void plotHisto()
     Int_t frontNo, backNo;
 
     Int_t accepted, transmitted;
-    Double_t energySlitBox, timeSlitBox;
     Double_t slitHitLocalPositionX, slitHitLocalPositionY, slitHitLocalPositionZ;
+    Double_t energySlitBox, timeSlitBox;
     Int_t charge, mass;
 
     Int_t completed;
     Double_t X1, Y1, X2, Y2;
+    Double_t ppacTof;
 
     simData1->SetBranchAddress("DeltaEEdep", &energydE);
     simData1->SetBranchAddress("DeltETime", &timedE);
@@ -67,9 +68,19 @@ void plotHisto()
     simData2->SetBranchAddress("PPAC1PositionY", &Y1);
     simData2->SetBranchAddress("PPAC2PositionX", &X2);
     simData2->SetBranchAddress("PPAC2PositionY", &Y2);
+    simData2->SetBranchAddress("PPACTof", &ppacTof);
+
+    TH1D *h1SlitBoxEnergy_C12 = new TH1D("h1SlitBoxEnergy_C12", "", 512, 0, 3.);
+    h1SlitBoxEnergy_C12->SetXTitle("Kinetic energy [MeV/u]");
+
+    TH1D *h1SlitBoxEnergy_Alpha = new TH1D("h1SlitBoxEnergy_Alpha", "", 512, 0, 3.);
+    h1SlitBoxEnergy_Alpha->SetXTitle("Kinetic energy [MeV/u]");
 
     TH1D *h1Q = new TH1D("h1Q", "Excitation energy (singles)", 512, -10, 15.);
     h1Q->SetXTitle("Energy [MeV]");
+
+    TH1D *h1Q_Coin = new TH1D("h1Q_Coin", "Excitation energy (Coin)", 512, -10, 15.);
+    h1Q_Coin->SetXTitle("Energy [MeV]");
 
     TH1D *h1Q_C12 = new TH1D("h1Q_C12", "Excitation energy (C12)", 512, -10, 15.);
     h1Q_C12->SetXTitle("Energy [MeV]");
@@ -77,12 +88,15 @@ void plotHisto()
     TH1D *h1Q_Alpha = new TH1D("h1Q_Alpha", "Excitation energy (Alpha)", 512, -10, 15.);
     h1Q_Alpha->SetXTitle("Energy [MeV]");
 
-    TH1D *h1ToF = new TH1D("h1ToF", "timeMDM - timeE", 512, 0., 100.);
+    TH1D *h1ToF = new TH1D("h1ToF", "T2-T1", 512, 0., 100.);
     h1ToF->SetXTitle("ToF [ns]");
 
-    TH2D *h2ToFvsQ = new TH2D("h2ToFvsQ", "ToF vs Excitation energy", 512, -10, 15., 512, 0., 100.);
-    h2ToFvsQ->SetYTitle("Energy [MeV]");
-    h2ToFvsQ->SetXTitle("ToF [ns]");
+    TH1D *h1ToF_SlitBox = new TH1D("h1ToF_SlitBox", "T_{Slit}-T_{Si}", 512, 0., 100.);
+    h1ToF_SlitBox->SetXTitle("ToF [ns]");
+
+    TH2D *h2ToFT2T1vsQ = new TH2D("h2ToFT2T1vsQ", "T2-T1 vs Excitation energy", 512, -10, 15., 512, 0., 100.);
+    h2ToFT2T1vsQ->SetXTitle("Energy [MeV]");
+    h2ToFT2T1vsQ->SetYTitle("ToF [ns]");
 
     TH2D *h2X2vsX1 = new TH2D("h2X2vsX1", "X2 vs X1", 512, -40., 40., 512, -40., 40.);
     h2X2vsX1->SetYTitle("X2 [cm]");
@@ -141,33 +155,54 @@ void plotHisto()
         // h2X2vsX1->Fill(X1, X2);
         if (accepted)
         {
-            acc++;
-            h1ToF->Fill(timeSlitBox - timeE);
-            if (transmitted)
+            if (mass == 12)
+                h1SlitBoxEnergy_C12->Fill(energySlitBox / (double)mass);
+            if (mass == 4)
+                h1SlitBoxEnergy_Alpha->Fill(energySlitBox / (double)mass);
+            h1ToF_SlitBox->Fill(timeSlitBox - timeE);
+            if (transmitted && completed)
             {
-                tra++;
-                h1Q_C12->Fill(-Q);
-                h2ToFvsQ->Fill(-Q, timeSlitBox - timeE);
-                h1Q_Alpha->Fill(-Q);
+                h1ToF->Fill(ppacTof);
+                h2ToFT2T1vsQ->Fill(-Q, ppacTof);
+                h1Q_Coin->Fill(-Q);
             }
         }
     }
-    cout << "transmission efficiency: " << (float)tra / (float)acc << endl;
 
     TCanvas *c1 = new TCanvas("c1", "c1", 1024, 768);
     c1->Divide(3, 1);
     c1->cd(1);
     h1Q->Draw();
     c1->cd(2);
-    h1Q_C12->Draw();
+    h1Q_Coin->Draw();
     c1->cd(3);
-    h1Q_Alpha->Draw();
+    h1ToF->Draw();
     c1->Update();
 
     TCanvas *c2 = new TCanvas("c2", "c2", 1024, 768);
     c2->cd(1);
-    h2ToFvsQ->Draw("colz");
+    h2ToFT2T1vsQ->Draw("colz");
     c2->Update();
+
+    TCanvas *c3 = new TCanvas("c3", "c3", 1024, 768);
+    c3->Divide(2, 1);
+    c3->cd(1);
+    h1SlitBoxEnergy_C12->Draw();
+    c3->cd(2);
+    h1SlitBoxEnergy_Alpha->Draw();
+    c3->Update();
+
+    TCanvas *c4 = new TCanvas("c4", "c4", 1024, 768);
+    c4->cd(1);
+    h1SlitBoxEnergy_C12->SetLineColor(kBlue);
+    h1SlitBoxEnergy_C12->Draw();
+    h1SlitBoxEnergy_Alpha->SetLineColor(kRed);
+    h1SlitBoxEnergy_Alpha->Draw("same");
+    c4->Update();
+
+
+
+
     /*
         TCanvas *c5 = new TCanvas("c5", "c5", 1600, 800);
         c5->Divide(2, 1);
