@@ -103,7 +103,7 @@ namespace MdmPpacSim
                 deltaETime += (*hcDeltaE)[i]->GetHitTime();
             }
             deltaEEdep = (nofHitsDeltaE > 0) ? G4RandGauss::shoot(deltaEEdep, fSiDetectorEnergyResolution * deltaEEdep / 2.355) : 0.;
-            deltaETime = (nofHitsDeltaE > 0) ? (deltaETime / nofHitsDeltaE + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
+            deltaETime = (nofHitsDeltaE > 0) ? (deltaETime / nofHitsDeltaE + 0.25 * ns * G4RandFlat::shoot()) : 0.;
             fHistoManager->SetDeltaE(deltaEEdep, deltaETime);
 
             // Si detector
@@ -121,7 +121,7 @@ namespace MdmPpacSim
                 siHitLocalPos += (*hcSi)[i]->GetLocalPosition();
             }
             siEdep = (nofHitsSi > 0) ? G4RandGauss::shoot(siEdep, fSiDetectorEnergyResolution * siEdep / 2.355) : 0.;
-            siTime = (nofHitsSi > 0) ? (siTime / nofHitsDeltaE + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
+            siTime = (nofHitsSi > 0) ? (siTime / nofHitsDeltaE + 0.25 * ns * G4RandFlat::shoot()) : 0.;
             siHitPos = (nofHitsSi > 0) ? siHitPos / nofHitsSi : G4ThreeVector(0., 0., 0.);
             siHitLocalPos = (nofHitsSi > 0) ? siHitLocalPos / nofHitsSi : G4ThreeVector(0., 0., 0.);
             G4int siFrontStripNo = std::floor((siHitLocalPos.x() / cm + 2.5) / (5. / 16.));
