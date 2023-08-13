@@ -23,6 +23,8 @@
 
 #include "Randomize.hh"
 
+#include "TGraph.h"
+
 #include <fstream>
 #include <iostream>
 
@@ -78,6 +80,20 @@ int main(int argc, char **argv)
     G4int lightProductMass = config["LightProduct"][1].get<G4int>();
     G4int heavyProductCharge = config["HeavyProduct"][0].get<G4int>();
     G4int heavyProductMass = config["HeavyProduct"][1].get<G4int>();
+    // Wave function
+    G4String waveFuncFile = config["WaveFunction"].get<std::string>();
+
+    // Read bound state wave function psi_p^2
+    std::ifstream dataStream(waveFuncFile.c_str());
+    G4double p, psi_p2;
+    G4int nPoints = 0;
+    TGraph *grPsi_p2 = new TGraph();
+    while (!dataStream.eof())
+    {
+        dataStream >> p >> psi_p2;
+        grPsi_p2->SetPoint(nPoints, p, psi_p2);
+        nPoints++;
+    }
 
     // Parameters for classes
     std::map<std::string, G4double> detectorParams; // parameters for DectectorConstruction
@@ -135,6 +151,7 @@ int main(int argc, char **argv)
     physicsList->RegisterPhysics(new G4StepLimiterPhysics());
     ReactionPhysics *reactionPhysics = new ReactionPhysics;
     reactionPhysics->SetReactionParams(reactionParams);
+    reactionPhysics->SetWaveFunction(grPsi_p2);
     physicsList->RegisterPhysics(reactionPhysics);
     physicsList->SetVerboseLevel(0);
     runManager->SetUserInitialization(physicsList);

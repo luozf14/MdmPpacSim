@@ -2,6 +2,7 @@
 #define ReactionProcess_h
 
 #include "G4VDiscreteProcess.hh"
+#include "TGraph.h"
 namespace MdmPpacSim
 {
     class ReactionProcess : public G4VDiscreteProcess
@@ -16,7 +17,6 @@ namespace MdmPpacSim
 
         void StartTracking(G4Track *);
 
-        
         G4double GetLightProductMass()
         {
             return fLightProductMass;
@@ -27,6 +27,7 @@ namespace MdmPpacSim
         }
 
         void SetParams(std::map<std::string, G4int>);
+        void SetWaveFunction(TGraph*);
 
         G4VParticleChange *TwoBody(const G4Track &aTrack, const G4Step &aStep, int Zt, int At, int Z1, int A1, int Z2, int A2, double Ex1, double Ex2);
 
@@ -46,6 +47,12 @@ namespace MdmPpacSim
                                                int Z1, int A1, double Ex1,  // light recoil
                                                int Z2, int A2, double Ex2); // heavy recoil
 
+        G4VParticleChange *TrojanHorse(const G4Track &aTrack, const G4Step &aStep,
+                                       int Zt, int At,              // target
+                                       int Z1, int A1, double Ex1,  // light recoil
+                                       int Z2, int A2, double Ex2,  // heavy recoil
+                                       int Zs, int As, double Exs); // spectator
+
     private:
         G4double fTargetMass;
         G4double fTargetCharge;
@@ -54,6 +61,7 @@ namespace MdmPpacSim
         G4double fHeavyProductMass;
         G4double fHeavyProductCharge;
         G4double fReactionPosition;
+        TGraph *fWaveFunction;
     };
 }
 #endif

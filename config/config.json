@@ -1,6 +1,7 @@
 {
     "GUI": false,
     "RunMacro": "run.mac",
+    "WaveFunction": "Psi_p2.txt",
     "ProcessNumber": 0,
     "IsTargetChamber": true,
     "BeamEnergy": 40.0,

@@ -68,6 +68,7 @@ set(MDMPPACSIM_SCRIPTS
     vis.mac
     plotHisto.C
     rayin.dat
+    waveFunction.txt
 )
 
 foreach(_script ${MDMPPACSIM_SCRIPTS})

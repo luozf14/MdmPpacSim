@@ -38,6 +38,7 @@ namespace MdmPpacSim
     {
         ReactionProcess *reactionProcess = new ReactionProcess();
         reactionProcess->SetParams(fReactionParams);
+        reactionProcess->SetWaveFunction(fWaveFunction);
         G4PhysicsListHelper::GetPhysicsListHelper()->RegisterProcess(reactionProcess, G4GenericIon::GenericIon());
         G4PhysicsListHelper::GetPhysicsListHelper()->RegisterProcess(reactionProcess, G4Alpha::Alpha());
     }
