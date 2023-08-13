@@ -11,5 +11,5 @@ Transfer_input_files = /home/grgroup/luozf/MdmPpacSim/build/MdmPpacSim,/home/grg
 Log 			= test_condor.log
 Error 			= error.txt
 Output          = output.txt
-queue 50
+queue 2
 
