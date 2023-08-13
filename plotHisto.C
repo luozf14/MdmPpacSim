@@ -9,25 +9,33 @@
 #include <TVector3.h>
 #include <TLegend.h>
 
-Double_t ma = 4. * 931.49 + 2.42491587;
-Double_t mA = 12. * 931.49;
-Double_t mb = 4. * 931.49 + 2.42491587;
-Double_t mB = 12 * 931.49;
-Double_t mHe = 4. * 931.49 + 2.42491587;
-Double_t mC12 = 12. * 931.49;
-Double_t Ea = 39.972; // 40MeV alpha after 0.00035mm carbon
-TVector3 beamMomentum(0., 0., std::sqrt(2. * ma * Ea));
-Double_t siAngle = 81.15;
+// constants
+Double_t Ea = 26.;
+Double_t Vcb = 8.6;                      // coulomb barrier of 13C+12C
+Double_t ma = 13. * 931.49 + 3.12500933; // mass of 13C
+Double_t mA = 12. * 931.49;              // mass of 12C
+Double_t mx = 12. * 931.49;              // mass of 12C
+Double_t ms = 931.49 + 8.07131806;       // mass of neutron
+Double_t mu_sx = ms * mx / (ms + mx);
+// Double_t mb = 931.49 + 7.288971064;      // mass of proton
+// Double_t mB = 23. * 931.49 - 9.52985352; // mass of 23Na
+Double_t mb = 4. * 931.49 + 2.42491587;  // mass of 4He
+Double_t mB = 20. * 931.49 - 7.04193217; // mass of 20Ne
+Double_t mF = mx + mA;                   // mass of 24Mg
+Double_t mu_sF = ms * mF / (ms + mF);
+Double_t e_sx = mx + ms - ma;
+Double_t ksx = std::sqrt(2. * mu_sx * e_sx);
+Double_t siAngle = 65;
 Double_t rE = 14.224; // distance between center of E detector and target
 Double_t L = 5.;      // length of E detector
 
 void plotHisto()
 {
     TFile *file1 = new TFile("Stage1~0.root", "READ");
-    TFile *file2 = new TFile("Stage2~0.root", "READ");
+    // TFile *file2 = new TFile("Stage2~0.root", "READ");
 
     TTree *simData1 = (TTree *)file1->Get("Stage1Data");
-    TTree *simData2 = (TTree *)file2->Get("Stage2Data");
+    // TTree *simData2 = (TTree *)file2->Get("Stage2Data");
 
     Double_t energydE, timedE;
     Double_t energyE, timeE;
@@ -62,120 +70,54 @@ void plotHisto()
     simData1->SetBranchAddress("SlitBoxHitLocalPosition.y", &slitHitLocalPositionY);
     simData1->SetBranchAddress("SlitBoxHitLocalPosition.z", &slitHitLocalPositionZ);
 
-    simData2->SetBranchAddress("Completed", &completed);
-    simData2->SetBranchAddress("PPAC1PositionX", &X1);
-    simData2->SetBranchAddress("PPAC1PositionY", &Y1);
-    simData2->SetBranchAddress("PPAC2PositionX", &X2);
-    simData2->SetBranchAddress("PPAC2PositionY", &Y2);
+    // simData2->SetBranchAddress("Completed", &completed);
+    // simData2->SetBranchAddress("PPAC1PositionX", &X1);
+    // simData2->SetBranchAddress("PPAC1PositionY", &Y1);
+    // simData2->SetBranchAddress("PPAC2PositionX", &X2);
+    // simData2->SetBranchAddress("PPAC2PositionY", &Y2);
 
-    TH1D *h1Q = new TH1D("h1Q", "Excitation energy (singles)", 512, -10, 15.);
-    h1Q->SetXTitle("Energy [MeV]");
-
-    TH1D *h1Q_C12 = new TH1D("h1Q_C12", "Excitation energy (C12)", 512, -10, 15.);
-    h1Q_C12->SetXTitle("Energy [MeV]");
-
-    TH1D *h1Q_Alpha = new TH1D("h1Q_Alpha", "Excitation energy (Alpha)", 512, -10, 15.);
-    h1Q_Alpha->SetXTitle("Energy [MeV]");
-
-    TH1D *h1ToF = new TH1D("h1ToF", "timeMDM - timeE", 512, 0., 100.);
-    h1ToF->SetXTitle("ToF [ns]");
-
-    TH2D *h2ToFvsQ = new TH2D("h2ToFvsQ", "ToF vs Excitation energy", 512, -10, 15., 512, 0., 100.);
-    h2ToFvsQ->SetYTitle("Energy [MeV]");
-    h2ToFvsQ->SetXTitle("ToF [ns]");
-
-    TH2D *h2X2vsX1 = new TH2D("h2X2vsX1", "X2 vs X1", 512, -40., 40., 512, -40., 40.);
-    h2X2vsX1->SetYTitle("X2 [cm]");
-    h2X2vsX1->SetXTitle("X1 [cm]");
-
-    // TH2D *h2PrimaryParticleTraceSpaceX = new TH2D("h2PrimaryParticleTraceSpaceX", "Primary particle X trace space", 512, -10., 10., 512, -10., 10.);
-    // h2PrimaryParticleTraceSpaceX->SetXTitle("X [mm]");
-    // h2PrimaryParticleTraceSpaceX->SetYTitle("X' [mrad]");
-
-    // TH2D *h2PrimaryParticleTraceSpaceY = new TH2D("h2PrimaryParticleTraceSpaceY", "Primary particle Y trace space", 512, -10., 10., 512, -10., 10.);
-    // h2PrimaryParticleTraceSpaceY->SetXTitle("Y [mm]");
-    // h2PrimaryParticleTraceSpaceY->SetYTitle("Y' [mrad]");
+    TH2D *h2DeltaEVsE = new TH2D("h2DeltaEVsE","#DeltaE vs E", 100,0,20,100,0,10);
+    TH1D *h1SlitBoxE_light = new TH1D("h1SlitBoxE_light", "Slit box energy (light recoil)", 100,0,10);
+    h1SlitBoxE_light->SetXTitle("Energy [MeV/u]");
+    TH1D *h1SlitBoxE_heavy = new TH1D("h1SlitBoxE_heavy", "Slit box energy (heavy recoil)", 100,0,2);
+    h1SlitBoxE_heavy->SetXTitle("Energy [MeV/u]");
 
     Int_t nEntries = (Int_t)simData1->GetEntries();
-    Int_t acc = 0;
-    Int_t tra = 0;
 
     for (int i = 0; i < nEntries; i++)
     {
         simData1->GetEntry(i);
-        simData2->GetEntry(i);
+        // simData2->GetEntry(i);
 
-        // h2PrimaryParticleTraceSpaceX->Fill(primaryParticlePositionX, primaryParticleMomentumDirectionX / primaryParticleMomentumDirectionZ * 1000.);
-        // h2PrimaryParticleTraceSpaceY->Fill(primaryParticlePositionY, primaryParticleMomentumDirectionY / primaryParticleMomentumDirectionZ * 1000.);
-
-        if (timeE < 1.)
-            continue;
-
-        if (!(frontNo >= 3 && frontNo <= 9 && backNo >= 6 && backNo <= 9))
-            continue;
-
-        // Si momentum
-        Double_t xOnDetector = -(((double)frontNo - 8.) * (L / 16.) + (L / 32.));
-        Double_t yOnDetector = ((double)backNo - 8.) * (L / 16.) + (L / 32.);
-        Double_t xInLab = rE * TMath::Sin(siAngle / 180. * TMath::Pi()) + xOnDetector * TMath::Cos(siAngle / 180. * TMath::Pi());
-        Double_t yInLab = yOnDetector;
-        Double_t zInLab = rE * TMath::Cos(siAngle / 180. * TMath::Pi()) - xOnDetector * TMath::Sin(siAngle / 180. * TMath::Pi());
-        TVector3 siMomentum(xInLab, yInLab, zInLab);
-        Double_t siAngleX = std::atan(xInLab / zInLab);
-        Double_t siAngleY = std::atan(yInLab / zInLab);
-        // Double_t tarZ = 0.00035 / std::cos(siAngleX - 22.5 / 180. * 3.14159) * std::cos(siAngleX);
-        // Double_t tarX = 0.00035 / std::cos(siAngleX - 22.5 / 180. * 3.14159) * std::sin(siAngleX);
-        // Double_t tarY = tarZ * std::tan(siAngleY / 180. * 3.14159);
-        // Double_t rangeAlphaInTarget = std::sqrt(tarX * tarX + tarY * tarY + tarZ * tarZ);
-        // Double_t siEnergy = energyLossAlphaInCarbon->AddBack(Eb, rangeAlphaInTarget);
-        Double_t siEnergy = energyE + energydE + 2.49E-01 * std::pow(energyE + energydE, -7.91E-01);
-        siMomentum.SetMag(std::sqrt(2 * mHe * siEnergy));
-        Double_t cosThetab = std::cos(siMomentum.Theta());
-
-        //
-        // Q value
-        Double_t Q = (ma / mB - 1.) * Ea + (mb / mB + 1.) * siEnergy - 2. * TMath::Sqrt(ma * mb * Ea * siEnergy) * cosThetab / mB;
-        // Double_t Q = (ma / mB - 1.) * Ea + (mb / mB + 1.) * siEnergy - 2. * TMath::Sqrt(ma * mb * Ea * siEnergy) * std::cos(siTheta/180.*TMath::Pi()) / mB;
-        h1Q->Fill(-Q);
-
-        // h2X2vsX1->Fill(X1, X2);
-        if (accepted)
+        if (timeE > 1.)
         {
-            acc++;
-            h1ToF->Fill(timeSlitBox - timeE);
-            if (transmitted)
-            {
-                tra++;
-                h1Q_C12->Fill(-Q);
-                h2ToFvsQ->Fill(-Q, timeSlitBox - timeE);
-                h1Q_Alpha->Fill(-Q);
-            }
+            h2DeltaEVsE->Fill(energyE, energydE);
         }
+        // if (!(frontNo >= 3 && frontNo <= 9 && backNo >= 6 && backNo <= 9))
+        //     continue;
+
+        if(accepted)
+        {
+            if(mass==4)
+            h1SlitBoxE_light->Fill(energySlitBox/(double)mass);
+            if(mass==20)
+            h1SlitBoxE_heavy->Fill(energySlitBox/(double)mass);
+        }
+
+
+
+        
     }
-    cout << "transmission efficiency: " << (float)tra / (float)acc << endl;
 
     TCanvas *c1 = new TCanvas("c1", "c1", 1024, 768);
-    c1->Divide(3, 1);
-    c1->cd(1);
-    h1Q->Draw();
-    c1->cd(2);
-    h1Q_C12->Draw();
-    c1->cd(3);
-    h1Q_Alpha->Draw();
-    c1->Update();
+    c1->cd();
+    h2DeltaEVsE->Draw("colz");
+
 
     TCanvas *c2 = new TCanvas("c2", "c2", 1024, 768);
+    c2->Divide(2,1);
     c2->cd(1);
-    h2ToFvsQ->Draw("colz");
-    c2->Update();
-    /*
-        TCanvas *c5 = new TCanvas("c5", "c5", 1600, 800);
-        c5->Divide(2, 1);
-        c5->cd(1);
-        h2PrimaryParticleTraceSpaceX->Draw("colz");
-        c5->cd(2);
-        h2PrimaryParticleTraceSpaceY->Draw("colz");
-        c5->Update();
-        // c5->SaveAs("c5.png");
-    */
+    h1SlitBoxE_light->Draw();
+    c2->cd(2);
+    h1SlitBoxE_heavy->Draw();
 }

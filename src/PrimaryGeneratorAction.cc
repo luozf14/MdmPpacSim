@@ -107,7 +107,7 @@ namespace MdmPpacSim
             {
                 G4ParticleDefinition *ion;
                 G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
-                G4int Z = 2, A = 4;
+                G4int Z = 6, A = 13;
                 if (particleTable->GetIonTable()->FindIon(Z, A, 0.0))
                     ion = particleTable->GetIonTable()->FindIon(Z, A, 0.0);
                 else

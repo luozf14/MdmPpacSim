@@ -1,15 +1,15 @@
 {
     "GUI": false,
     "RunMacro": "run.mac",
-    "WaveFunction": "Psi_p2.txt",
+    "WaveFunction": "waveFunction.txt",
     "ProcessNumber": 0,
     "IsTargetChamber": true,
-    "BeamEnergy": 40.0,
+    "BeamEnergy": 26.0,
     "TargetThicknessInUm": 0.706,
     "TargetRotationAngleInDeg": 22.5,
-    "SiDetectorAngleInDeg": 81.15,
+    "SiDetectorAngleInDeg": 65,
     "SiDetectorDistanceInCm": 14.224,
-    "MdmAngleInDeg": 35.3,
+    "MdmAngleInDeg": 24,
     "PpacGasPressureInTorr": 4,
     "PpacLengthInCm": 42,
     "SiDetectorEnergyResolution": 0.03,
@@ -19,5 +19,5 @@
     "MdmDipoleProbe": 2349.4,
     "Target": [6, 12],
     "LightProduct": [2, 4],
-    "HeavyProduct": [6, 12]
+    "HeavyProduct": [10, 20]
 }

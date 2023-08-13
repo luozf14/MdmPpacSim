@@ -26,7 +26,7 @@ namespace MdmPpacSim
 
         G4String name = aTrack.GetParticleDefinition()->GetParticleName();
         //   G4cout<<"name: "<<name<<G4endl;
-        G4bool test1 = (name == "alpha") ? true : false;
+        G4bool test1 = (name == "C13") ? true : false;
         G4bool test2 = (aTrack.GetNextVolume()->GetLogicalVolume()->GetName() == "LogicTarget") ? true : false;
         G4double mfp = DBL_MAX;
         if (test1 && test2 && aTrack.GetPosition().z() < fReactionPosition && aTrack.GetTrackID() == 1)
@@ -49,29 +49,29 @@ namespace MdmPpacSim
 
         aParticleChange.Initialize(aTrack);
 
-        //   TwoBody(aTrack,aStep,fTargetCharge, fTargetMass,fLightProductCharge, fLightProductMass, fHeavyProductCharge, fHeavyProductMass, 0.0, 4.44 );
+        TrojanHorse(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 0.0, 0, 1, 0.0);
 
-        G4double ran = G4UniformRand();
-        if (ran < 0.2)
-        {
-            TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 4.44, 1);
-        }
-        else if (ran < 0.4)
-        {
-            TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 7.65, 1);
-        }
-        else if (ran < 0.6)
-        {
-            TwoBodyAlphaDecay(aTrack, aStep, 8, 16, 2, 4, 0.0, 8, 16, 10.36);
-        }
-        else if (ran < 0.8)
-        {
-            TwoBodyNeutronDecay(aTrack, aStep, 6, 13, 2, 4, 0.0, 6, 13, 6.864);
-        }
-        else
-        {
-            TwoBodyNeutronDecay(aTrack, aStep, 6, 13, 2, 4, 0.0, 6, 13, 7.55);
-        }
+        // G4double ran = G4UniformRand();
+        // if (ran < 0.2)
+        // {
+        //     TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 4.44, 1);
+        // }
+        // else if (ran < 0.4)
+        // {
+        //     TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 7.65, 1);
+        // }
+        // else if (ran < 0.6)
+        // {
+        //     TwoBodyAlphaDecay(aTrack, aStep, 8, 16, 2, 4, 0.0, 8, 16, 10.36);
+        // }
+        // else if (ran < 0.8)
+        // {
+        //     TwoBodyNeutronDecay(aTrack, aStep, 6, 13, 2, 4, 0.0, 6, 13, 6.864);
+        // }
+        // else
+        // {
+        //     TwoBodyNeutronDecay(aTrack, aStep, 6, 13, 2, 4, 0.0, 6, 13, 7.55);
+        // }
         return &aParticleChange;
     }
 
@@ -641,11 +641,11 @@ namespace MdmPpacSim
         return &aParticleChange;
     }
 
-    G4VParticleChange *TrojanHorse(const G4Track &aTrack, const G4Step &aStep,
-                                   int Zt, int At,             // target
-                                   int Z1, int A1, double Ex1, // light recoil
-                                   int Z2, int A2, double Ex2, // heavy recoil
-                                   int Zs, int As, double Exs) // spectator
+    G4VParticleChange *ReactionProcess::TrojanHorse(const G4Track &aTrack, const G4Step &aStep,
+                                                    int Zt, int At,             // target
+                                                    int Z1, int A1, double Ex1, // light recoil
+                                                    int Z2, int A2, double Ex2, // heavy recoil
+                                                    int Zs, int As, double Exs) // spectator
     {
         //
         // 2 steps reaction (1 transfer reaction + 1 two-body reaction)

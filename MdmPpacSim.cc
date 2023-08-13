@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     if (argc != 3)
     {
         G4cerr << "--->Error: wrong input parameters!"
-               << "\n--->Usage: ./exampleB1 <config.json> <process number>" << G4endl;
+               << "\n--->Usage: ./MdmPpacSim <config.json> <process number>" << G4endl;
         return 0;
     }
 
@@ -88,6 +88,7 @@ int main(int argc, char **argv)
     G4double p, psi_p2;
     G4int nPoints = 0;
     TGraph *grPsi_p2 = new TGraph();
+    grPsi_p2->SetName("waveFunction");
     while (!dataStream.eof())
     {
         dataStream >> p >> psi_p2;
