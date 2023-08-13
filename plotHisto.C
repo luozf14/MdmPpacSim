@@ -8,6 +8,7 @@
 #include <TCanvas.h>
 #include <TVector3.h>
 #include <TLegend.h>
+#include <TGaxis.h>
 
 Double_t ma = 4. * 931.49 + 2.42491587;
 Double_t mA = 12. * 931.49;
@@ -33,11 +34,13 @@ void plotHisto()
     Double_t energyE, timeE;
     Double_t siHitLocalPositionX, siHitLocalPositionY, siHitLocalPositionZ;
     Int_t frontNo, backNo;
+    Int_t massE, chargeE, trackIDE;
 
     Int_t accepted, transmitted;
     Double_t slitHitLocalPositionX, slitHitLocalPositionY, slitHitLocalPositionZ;
     Double_t energySlitBox, timeSlitBox;
     Int_t charge, mass;
+    Int_t trackIDSlitBox;
 
     Int_t completed;
     Double_t X1, Y1, X2, Y2;
@@ -52,6 +55,9 @@ void plotHisto()
     simData1->SetBranchAddress("SiHitLocalPosition.z", &siHitLocalPositionZ);
     simData1->SetBranchAddress("SiFrontStripNo", &frontNo);
     simData1->SetBranchAddress("SiBackStripNo", &backNo);
+    simData1->SetBranchAddress("SiMass", &massE);
+    simData1->SetBranchAddress("SiCharge", &chargeE);
+    simData1->SetBranchAddress("SiTrackID", &trackIDE);
 
     simData1->SetBranchAddress("SlitBoxAccepted", &accepted);
     simData1->SetBranchAddress("SlitBoxTransmitted", &transmitted);
@@ -59,6 +65,7 @@ void plotHisto()
     simData1->SetBranchAddress("SlitBoxTime", &timeSlitBox);
     simData1->SetBranchAddress("SlitBoxCharge", &charge);
     simData1->SetBranchAddress("SlitBoxMass", &mass);
+    simData1->SetBranchAddress("SlitBoxTrackID", &trackIDSlitBox);
     simData1->SetBranchAddress("SlitBoxHitLocalPosition.x", &slitHitLocalPositionX);
     simData1->SetBranchAddress("SlitBoxHitLocalPosition.y", &slitHitLocalPositionY);
     simData1->SetBranchAddress("SlitBoxHitLocalPosition.z", &slitHitLocalPositionZ);
@@ -70,10 +77,10 @@ void plotHisto()
     simData2->SetBranchAddress("PPAC2PositionY", &Y2);
     simData2->SetBranchAddress("PPACTof", &ppacTof);
 
-    TH1D *h1SlitBoxEnergy_C12 = new TH1D("h1SlitBoxEnergy_C12", "", 512, 0, 3.);
+    TH1D *h1SlitBoxEnergy_C12 = new TH1D("h1SlitBoxEnergy_C12", "", 300, 0, 3.);
     h1SlitBoxEnergy_C12->SetXTitle("Kinetic energy [MeV/u]");
 
-    TH1D *h1SlitBoxEnergy_Alpha = new TH1D("h1SlitBoxEnergy_Alpha", "", 512, 0, 3.);
+    TH1D *h1SlitBoxEnergy_Alpha = new TH1D("h1SlitBoxEnergy_Alpha", "", 300, 0, 3.);
     h1SlitBoxEnergy_Alpha->SetXTitle("Kinetic energy [MeV/u]");
 
     TH1D *h1Q = new TH1D("h1Q", "Excitation energy (singles)", 512, -10, 15.);
@@ -122,10 +129,10 @@ void plotHisto()
         // h2PrimaryParticleTraceSpaceX->Fill(primaryParticlePositionX, primaryParticleMomentumDirectionX / primaryParticleMomentumDirectionZ * 1000.);
         // h2PrimaryParticleTraceSpaceY->Fill(primaryParticlePositionY, primaryParticleMomentumDirectionY / primaryParticleMomentumDirectionZ * 1000.);
 
-        if (timeE < 1.)
+        if (trackIDE != 2)
             continue;
 
-        if (!(frontNo >= 3 && frontNo <= 9 && backNo >= 6 && backNo <= 9))
+        if (!(frontNo >= 3 && frontNo <= 10 && backNo >= 6 && backNo <= 9))
             continue;
 
         // Si momentum
@@ -155,20 +162,22 @@ void plotHisto()
         // h2X2vsX1->Fill(X1, X2);
         if (accepted)
         {
+            acc++;
             if (mass == 12)
                 h1SlitBoxEnergy_C12->Fill(energySlitBox / (double)mass);
-            if (mass == 4)
+            if (mass == 4 && (trackIDSlitBox == 3 || trackIDSlitBox == 4 || trackIDSlitBox == 5))
                 h1SlitBoxEnergy_Alpha->Fill(energySlitBox / (double)mass);
             h1ToF_SlitBox->Fill(timeSlitBox - timeE);
-            if (transmitted && completed)
+            if (transmitted && transmitted)
             {
                 h1ToF->Fill(ppacTof);
                 h2ToFT2T1vsQ->Fill(-Q, ppacTof);
                 h1Q_Coin->Fill(-Q);
+                tra++;
             }
         }
     }
-
+    printf("efficiency: %.4f\n", (double)tra / (double)acc);
     TCanvas *c1 = new TCanvas("c1", "c1", 1024, 768);
     c1->Divide(3, 1);
     c1->cd(1);
@@ -195,13 +204,41 @@ void plotHisto()
     TCanvas *c4 = new TCanvas("c4", "c4", 1024, 768);
     c4->cd(1);
     h1SlitBoxEnergy_C12->SetLineColor(kBlue);
+    h1SlitBoxEnergy_C12->SetStats(0);
+    h1SlitBoxEnergy_C12->GetXaxis()->SetTitle("Kinetic energy [MeV/nucleon]");
+    h1SlitBoxEnergy_C12->GetXaxis()->CenterTitle(1);
+    h1SlitBoxEnergy_C12->GetXaxis()->SetTitleOffset(1);
+    h1SlitBoxEnergy_C12->GetYaxis()->SetTitle("Counts/10keV");
+    h1SlitBoxEnergy_C12->GetYaxis()->CenterTitle(1);
+    h1SlitBoxEnergy_C12->GetYaxis()->SetTitleOffset(1);
+
+    h1SlitBoxEnergy_C12->GetXaxis()->SetTitleFont(132);
+    h1SlitBoxEnergy_C12->GetXaxis()->SetTitleSize(0.0475);
+    h1SlitBoxEnergy_C12->GetYaxis()->SetTitleFont(132);
+    h1SlitBoxEnergy_C12->GetYaxis()->SetTitleSize(0.0475);
+
+    h1SlitBoxEnergy_C12->SetTitle("");
+    h1SlitBoxEnergy_C12->GetXaxis()->SetLabelFont(132);
+    h1SlitBoxEnergy_C12->GetXaxis()->SetLabelSize(0.0475);
+    h1SlitBoxEnergy_C12->GetYaxis()->SetLabelFont(132);
+    h1SlitBoxEnergy_C12->GetYaxis()->SetLabelSize(0.0475);
     h1SlitBoxEnergy_C12->Draw();
-    h1SlitBoxEnergy_Alpha->SetLineColor(kRed);
-    h1SlitBoxEnergy_Alpha->Draw("same");
+
     c4->Update();
-
-
-
+    Float_t rightmax = 1.2 * h1SlitBoxEnergy_Alpha->GetMaximum();
+    Float_t scale = gPad->GetUymax() / rightmax;
+    h1SlitBoxEnergy_Alpha->SetLineColor(kRed);
+    h1SlitBoxEnergy_Alpha->Scale(scale);
+    h1SlitBoxEnergy_Alpha->SetStats(0);
+    h1SlitBoxEnergy_Alpha->Draw("hist same");
+    // TGaxis *axis = new TGaxis(gPad->GetUxmax(), gPad->GetUymin(),
+    //                           gPad->GetUxmax(), gPad->GetUymax(), 0, rightmax, 510, "+L");
+    // axis->SetLineColor(kRed);
+    // axis->SetLabelColor(kRed);
+    // axis->SetLabelFont(132);
+    // axis->SetLabelSize(0.0475);
+    // axis->Draw();
+    c4->SaveAs("rigidity.pdf");
 
     /*
         TCanvas *c5 = new TCanvas("c5", "c5", 1600, 800);

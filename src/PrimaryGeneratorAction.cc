@@ -68,7 +68,7 @@ namespace MdmPpacSim
             fBeamEmittance->SetBeamSigmaX(5.0e-3);       //[m]
             fBeamEmittance->SetBeamSigmaY(5.0e-3);       //[m]
             fBeamEmittance->SetBeamPhiX(44. * deg);
-            fBeamEmittance->SetBeamPhiY(0. * deg);
+            fBeamEmittance->SetBeamPhiY(44. * deg);
             fBeamEmittance->InitBeamEmittance(); // always call this function after setting beam parameters
         }
         else
@@ -118,15 +118,15 @@ namespace MdmPpacSim
             }
 
             // pencil beam
-            // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1));
-            // fParticleGun->SetParticlePosition(G4ThreeVector(0.,0.,-3.*mm));
+            fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1));
+            fParticleGun->SetParticlePosition(G4ThreeVector(0.,0.,-3.*mm));
 
             // beam emittance
-            std::array<G4double, 4> beam = fBeamEmittance->GetBeam();
-            G4double z0 = -2. * mm;
-            fParticleGun->SetParticlePosition(G4ThreeVector(beam[0] * m, beam[2] * m, z0));
-            G4ThreeVector momentumDirection = G4ThreeVector(beam[1], beam[3], 1.0).unit();
-            fParticleGun->SetParticleMomentumDirection(momentumDirection);
+            // std::array<G4double, 4> beam = fBeamEmittance->GetBeam();
+            // G4double z0 = -2. * mm;
+            // fParticleGun->SetParticlePosition(G4ThreeVector(beam[0] * m, beam[2] * m, z0));
+            // G4ThreeVector momentumDirection = G4ThreeVector(beam[1], beam[3], 1.0).unit();
+            // fParticleGun->SetParticleMomentumDirection(momentumDirection);
 
             fRunAction->GetHistoManager()->SetBeam(fParticleGun->GetParticleEnergy(), fParticleGun->GetParticlePosition(), fParticleGun->GetParticleMomentumDirection());
         }

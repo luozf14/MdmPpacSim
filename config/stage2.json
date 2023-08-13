@@ -15,7 +15,7 @@
     "TdcResolutionInNs": 2.0,
     "PpacPositionResolutionInMm": 5.0,
     "MdmMultipoleProbe": 1668,
-    "MdmDipoleProbe": 2338,
+    "MdmDipoleProbe": 2349.4,
     "Target": [6, 12],
     "LightProduct": [2, 4],
     "HeavyProduct": [6, 12]

@@ -143,6 +143,11 @@ namespace MdmPpacSim
                 analysisManager->CreateNtupleDColumn("BeamMomentumDirection.y"); // column Id = 41
                 analysisManager->CreateNtupleDColumn("BeamMomentumDirection.z"); // column Id = 42
 
+                analysisManager->CreateNtupleIColumn("SiMass");    // column Id = 43
+                analysisManager->CreateNtupleIColumn("SiCharge");  // column Id = 44
+                analysisManager->CreateNtupleIColumn("SiTrackID"); // column Id = 45
+                analysisManager->CreateNtupleIColumn("SlitBoxTrackID"); // column Id = 46
+
                 analysisManager->FinishNtuple();
 
                 fFactoryOn = true;
@@ -260,6 +265,11 @@ namespace MdmPpacSim
             analysisManager->FillNtupleDColumn(40, BeamMomentumDirection.x());
             analysisManager->FillNtupleDColumn(41, BeamMomentumDirection.y());
             analysisManager->FillNtupleDColumn(42, BeamMomentumDirection.z());
+
+            analysisManager->FillNtupleIColumn(43, SiMass);
+            analysisManager->FillNtupleIColumn(44, SiCharge);
+            analysisManager->FillNtupleIColumn(45, SiTrackID);
+            analysisManager->FillNtupleIColumn(46, SlitBoxTrackID);
 
             analysisManager->AddNtupleRow(0);
         }

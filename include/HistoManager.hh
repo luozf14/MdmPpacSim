@@ -60,7 +60,7 @@ namespace MdmPpacSim
         }
 
         void SetSi(G4double edep, G4double time, G4ThreeVector hitPosition, G4ThreeVector hitLocalPosition,
-                   G4int frontStripNo, G4int backStripNo)
+                   G4int frontStripNo, G4int backStripNo, G4int mass, G4int charge, G4int trackID)
         {
             SiEdep = edep;
             SiTime = time;
@@ -68,11 +68,14 @@ namespace MdmPpacSim
             SiHitLocalPosition = hitLocalPosition;
             SiFrontStripNo = frontStripNo;
             SiBackStripNo = backStripNo;
+            SiMass = mass;
+            SiCharge = charge;
+            SiTrackID = trackID;
         }
 
         void SetSlitBox(G4bool accepted, G4bool transmitted, G4ThreeVector hitPosition, G4ThreeVector hitLocalPosition,
                         G4ThreeVector hitMomentum, G4ThreeVector hitLocalMomentum,
-                        G4int charge, G4int mass, G4double energy, G4double time, G4double scatteredAngleX, G4double scatteredAngleY)
+                        G4int charge, G4int mass, G4double energy, G4double time, G4double scatteredAngleX, G4double scatteredAngleY, G4int trackID)
         {
             SlitBoxAccepted = accepted;
             SlitBoxTransmitted = transmitted;
@@ -84,6 +87,7 @@ namespace MdmPpacSim
             SlitBoxMass = mass;
             SlitBoxEnergy = energy;
             SlitBoxTime = time;
+            SlitBoxTrackID = trackID;
             ScatteredAngleX = scatteredAngleX;
             ScatteredAngleY = scatteredAngleY;
         }
@@ -139,6 +143,9 @@ namespace MdmPpacSim
         G4ThreeVector SiHitLocalPosition;
         G4int SiFrontStripNo;
         G4int SiBackStripNo;
+        G4int SiMass;
+        G4int SiCharge;
+        G4int SiTrackID;
 
         // Slit box
         G4bool SlitBoxAccepted;
@@ -151,6 +158,7 @@ namespace MdmPpacSim
         G4int SlitBoxMass;
         G4double SlitBoxEnergy;
         G4double SlitBoxTime;
+        G4int SlitBoxTrackID;
 
         // MDMTrace results
         G4double MDMPositionX;

@@ -49,15 +49,15 @@ namespace MdmPpacSim
 
         //   TwoBody(aTrack,aStep,fTargetCharge, fTargetMass,fLightProductCharge, fLightProductMass, fHeavyProductCharge, fHeavyProductMass, 0.0, 4.44 );
 
-        G4double ran = G4UniformRand();
-        if (ran < 0.26)
-        {
-            TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 7.65, 1);
-        }
-        else
-        {
-            TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 7.65, 2);
-        }
+        // G4double ran = G4UniformRand();
+        // if (ran < 0.4)
+        // {
+            TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 9.87, 1);
+        // }
+        // else
+        // {
+            // TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 7.65, 2);
+        // }
         // else if (ran < 0.6)
         // {
         //     TwoBodyAlphaDecay(aTrack, aStep, 8, 16, 2, 4, 0.0, 8, 16, 10.36);
@@ -359,6 +359,10 @@ namespace MdmPpacSim
             aParticleChange.AddSecondary(sec_d1);
             aParticleChange.AddSecondary(sec_d21);
             aParticleChange.AddSecondary(sec_d22);
+            // G4cout << "sec_light kinetic energy: " << sec_light->GetKineticEnergy() << G4endl;
+            // G4cout << "sec_d1 kinetic energy: " << sec_d1->GetKineticEnergy() << G4endl;
+            // G4cout << "sec_d21 kinetic energy: " << sec_d21->GetKineticEnergy() << G4endl;
+            // G4cout << "sec_d22 kinetic energy: " << sec_d22->GetKineticEnergy() << G4endl;
         }
         else if (flag == 1)
         {

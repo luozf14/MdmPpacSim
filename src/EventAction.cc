@@ -113,12 +113,18 @@ namespace MdmPpacSim
             G4double siTime = 0.;
             G4ThreeVector siHitPos(0., 0., 0.);
             G4ThreeVector siHitLocalPos(0., 0., 0.);
+            G4int siMass = 0;
+            G4int siCharge = 0;
+            G4int siTrackID = 0;
             for (int i = 0; i < nofHitsSi; i++)
             {
                 siEdep += (*hcSi)[i]->GetEnergyDeposit();
                 siTime += (*hcSi)[i]->GetHitTime();
                 siHitPos += (*hcSi)[i]->GetPosition();
                 siHitLocalPos += (*hcSi)[i]->GetLocalPosition();
+                siMass += (*hcSi)[i]->GetParticleMass();
+                siCharge += (*hcSi)[i]->GetParticleCharge();
+                siTrackID += (*hcSi)[i]->GetTrackID();
             }
             siEdep = (nofHitsSi > 0) ? G4RandGauss::shoot(siEdep, fSiDetectorEnergyResolution * siEdep / 2.355) : 0.;
             siTime = (nofHitsSi > 0) ? (siTime / nofHitsDeltaE + 0.25 * ns * G4RandFlat::shoot()) : 0.;
@@ -126,7 +132,10 @@ namespace MdmPpacSim
             siHitLocalPos = (nofHitsSi > 0) ? siHitLocalPos / nofHitsSi : G4ThreeVector(0., 0., 0.);
             G4int siFrontStripNo = std::floor((siHitLocalPos.x() / cm + 2.5) / (5. / 16.));
             G4int siBackStripNo = std::floor((siHitLocalPos.y() / cm + 2.5) / (5. / 16.));
-            fHistoManager->SetSi(siEdep, siTime, siHitPos, siHitLocalPos, siFrontStripNo, siBackStripNo);
+            siMass = (nofHitsSi > 0) ? siMass / nofHitsSi : 0;
+            siCharge = (nofHitsSi > 0) ? siCharge / nofHitsSi : 0;
+            siTrackID = (nofHitsSi > 0) ? siTrackID / nofHitsSi : 0;
+            fHistoManager->SetSi(siEdep, siTime, siHitPos, siHitLocalPos, siFrontStripNo, siBackStripNo, siMass, siCharge, siTrackID);
 
             // Slit box
             DetectorHitsCollection *hcSlitBox = (DetectorHitsCollection *)aEvent->GetHCofThisEvent()->GetHC(fHCID_SlitBox);
@@ -147,6 +156,7 @@ namespace MdmPpacSim
             G4double mdmPositionY = 0.;
             G4double mdmAngleX = 0.;
             G4double mdmAngleY = 0.;
+            G4int slitBoxTrackID = 0;
             if (nofHitsSlitBox > 0)
             {
                 slitBoxAccepted = true;
@@ -158,6 +168,7 @@ namespace MdmPpacSim
                 slitBoxMass = (*hcSlitBox)[nofHitsSlitBox - 1]->GetParticleMass();
                 slitBoxEnergy = (*hcSlitBox)[nofHitsSlitBox - 1]->GetKineticEnergy();
                 slitBoxTime = (*hcSlitBox)[nofHitsSlitBox - 1]->GetHitTime();
+                slitBoxTrackID = (*hcSlitBox)[nofHitsSlitBox - 1]->GetTrackID();
 
                 fMDMTrace->SetScatteredMass(slitBoxMass);
                 if (slitBoxCharge == 6 && slitBoxMass == 12)
@@ -203,7 +214,7 @@ namespace MdmPpacSim
             {
                 slitBoxAccepted = false;
             }
-            fHistoManager->SetSlitBox(slitBoxAccepted, slitBoxTransmitted, slitBoxHitPosition, slitBoxHitLocalPosition, slitBoxHitMomentum, slitBoxHitLocalMomentum, slitBoxCharge, slitBoxMass, slitBoxEnergy, slitBoxTime, scatteredAngleX, scatteredAngleY);
+            fHistoManager->SetSlitBox(slitBoxAccepted, slitBoxTransmitted, slitBoxHitPosition, slitBoxHitLocalPosition, slitBoxHitMomentum, slitBoxHitLocalMomentum, slitBoxCharge, slitBoxMass, slitBoxEnergy, slitBoxTime, scatteredAngleX, scatteredAngleY, slitBoxTrackID);
             fHistoManager->SetMDMTraceResult(mdmPositionX, mdmPositionY, mdmAngleX, mdmAngleY);
         }
         else
