@@ -53,6 +53,12 @@ namespace MdmPpacSim
                                        int Z2, int A2, double Ex2,  // heavy recoil
                                        int Zs, int As, double Exs); // spectator
 
+        G4VParticleChange *TrojanHorseInverse(const G4Track &aTrack, const G4Step &aStep,
+                                       int Zt, int At,              // target
+                                       int Z1, int A1, double Ex1,  // light recoil
+                                       int Z2, int A2, double Ex2,  // heavy recoil
+                                       int Zs, int As, double Exs); // spectator
+
     private:
         G4double fTargetMass;
         G4double fTargetCharge;

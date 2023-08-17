@@ -172,6 +172,14 @@ namespace MdmPpacSim
                 {
                     fMDMTrace->SetScatteredCharge(slitBoxCharge - 1);
                 }
+                else if (slitBoxCharge == 10 && slitBoxMass == 20)
+                {
+                    fMDMTrace->SetScatteredCharge(8);
+                }
+                else if (slitBoxCharge == 11 && slitBoxMass == 23)
+                {
+                    fMDMTrace->SetScatteredCharge(8);
+                }
                 else
                 {
                     fMDMTrace->SetScatteredCharge(slitBoxCharge);

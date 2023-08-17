@@ -26,7 +26,7 @@ namespace MdmPpacSim
 
         G4String name = aTrack.GetParticleDefinition()->GetParticleName();
         //   G4cout<<"name: "<<name<<G4endl;
-        G4bool test1 = (name == "C13") ? true : false;
+        G4bool test1 = (name == "C12") ? true : false;
         G4bool test2 = (aTrack.GetNextVolume()->GetLogicalVolume()->GetName() == "LogicTarget") ? true : false;
         G4double mfp = DBL_MAX;
         if (test1 && test2 && aTrack.GetPosition().z() < fReactionPosition && aTrack.GetTrackID() == 1)
@@ -642,10 +642,169 @@ namespace MdmPpacSim
     }
 
     G4VParticleChange *ReactionProcess::TrojanHorse(const G4Track &aTrack, const G4Step &aStep,
-                                                    int Zt, int At,             // target
-                                                    int Z1, int A1, double Ex1, // light recoil
-                                                    int Z2, int A2, double Ex2, // heavy recoil
-                                                    int Zs, int As, double Exs) // spectator
+                                                           int Zt, int At,             // target
+                                                           int Z1, int A1, double Ex1, // light recoil
+                                                           int Z2, int A2, double Ex2, // heavy recoil
+                                                           int Zs, int As, double Exs) // spectator
+    {
+        //
+        // 2 steps reaction (1 transfer reaction + 1 two-body reaction)
+        // Step1: a+A->s+x+A, Step2: x+A->b+B (s is neutron)
+        //
+
+        // define target (target is particle "a")
+        G4DynamicParticle *target = new G4DynamicParticle;
+        G4ParticleDefinition *targetDef;
+        targetDef = G4IonTable::GetIonTable()->GetIon(Zt, At, 0.);
+        target->SetDefinition(targetDef);
+        G4double ma = targetDef->GetPDGMass();
+
+        // define light recoil
+        G4DynamicParticle *light = new G4DynamicParticle;
+        G4ParticleDefinition *lightDef;
+        if (Z1 == 0)
+        {
+            G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+            lightDef = particleTable->FindParticle("neutron");
+        }
+        if (Z1 != 0)
+        {
+            lightDef = G4IonTable::GetIonTable()->GetIon(Z1, A1, Ex1 * MeV);
+        }
+        light->SetDefinition(lightDef);
+        G4double mb = lightDef->GetPDGMass();
+
+        // define heavy recoil
+        G4DynamicParticle *heavy = new G4DynamicParticle;
+        G4ParticleDefinition *heavyDef;
+        heavyDef = G4IonTable::GetIonTable()->GetIon(Z2, A2, Ex2 * MeV);
+        heavy->SetDefinition(heavyDef);
+        G4double mB = heavyDef->GetPDGMass();
+
+        // define spectator
+        G4DynamicParticle *spectator = new G4DynamicParticle;
+        G4ParticleDefinition *spectatorDef;
+        if (Zs == 0)
+        {
+            G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+            spectatorDef = particleTable->FindParticle("neutron");
+        }
+        if (Zs != 0)
+        {
+            spectatorDef = G4IonTable::GetIonTable()->GetIon(Zs, As, Exs * MeV);
+        }
+        spectator->SetDefinition(spectatorDef);
+        G4double ms = spectatorDef->GetPDGMass();
+
+        // get beam properties
+        G4int ZA = aTrack.GetDynamicParticle()->GetParticleDefinition()->GetAtomicNumber();
+        G4int AA = aTrack.GetDynamicParticle()->GetParticleDefinition()->GetAtomicMass();
+        G4double mA = aTrack.GetDynamicParticle()->GetParticleDefinition()->GetPDGMass();
+        G4ThreeVector pA = aTrack.GetDynamicParticle()->GetMomentum();
+        G4double EA = aTrack.GetDynamicParticle()->GetKineticEnergy();
+
+        // define "Trojan soldier"
+        G4int Zx = Zt - Zs;
+        G4int Ax = At - As;
+        G4DynamicParticle *soldier = new G4DynamicParticle;
+        G4ParticleDefinition *soldierDef;
+        if (Zx == 0)
+        {
+            G4ParticleTable *particleTable = G4ParticleTable::GetParticleTable();
+            soldierDef = particleTable->FindParticle("neutron");
+        }
+        if (Zx != 0)
+        {
+            soldierDef = G4IonTable::GetIonTable()->GetIon(Zx, Ax, 0. * MeV);
+        }
+        soldier->SetDefinition(soldierDef);
+        G4double mx = soldierDef->GetPDGMass();
+
+        // some constants
+        G4double mu_sx = ms * mx / (ms + mx);
+        G4double mF = mx + mA;
+        G4double mu_sF = ms * mF / (ms + mF);
+        G4double e_sx = mx + ms - ma;
+        G4double ksx = std::sqrt(2. * mu_sx * e_sx);
+
+        //
+        // Kinematics for THM a+A->s+F*, F*->b+B
+        //
+        G4ThreeVector kA(0., 0., std::sqrt(2. * mA * EA)); // momentum vector of A in lab
+
+        // Calculation in lab system
+        // 1. Sample the momentum of s(neutron)
+        G4ThreeVector ks(1., 1., 1.); // momentum vector of s in anti-lab
+        G4double ExA = -1000.;
+        while (ExA < 0)
+        {
+            G4double mag_s = G4UniformRand() * ksx; // momentum magnitude of s in anti-lab
+            G4double temp = G4UniformRand() * 0.010;
+            while (temp > fWaveFunction->Eval(mag_s, 0, "S"))
+            {
+                mag_s = G4UniformRand() * ksx;
+                temp = G4UniformRand() * 0.010;
+            }
+            ks.setMag(mag_s);
+            ks.setTheta(std::acos(-1. + 2. * G4UniformRand()));
+            ks.setPhi(G4UniformRand() * 2. * M_PI);
+            // 2. Calculate ExA
+            ExA = mx / (mx + mA) * EA - ks.mag2() / (2. * mu_sF) + ks.dot(kA) / (mx + mA) - e_sx;
+        }
+        // 3. Calculate the momentum of b and B (x+A->b+B)
+        G4ThreeVector pF_l = kA - ks; // momentum vector of F(x+A) in lab
+        // 3.1 Momentum of b and B in CMS of x+A
+        G4double Q2 = mx + mA - mb - mB; // Q-value of x+A->b+B
+        G4double EbB = ExA + Q2;
+        G4double mag_b = std::sqrt(2. * EbB / (1. / mb + 1. / mB));
+        G4ThreeVector kb(1., 1., 1.); // momentum vector of b in CMS of x+A
+        kb.setMag(mag_b);
+        kb.setTheta(std::acos(-1. + 2. * G4UniformRand()));
+        kb.setPhi(G4UniformRand() * 2. * M_PI);
+        G4ThreeVector kB = -kb; // momentum vector of B in CMS of x+A
+        // 3.2 Boost kb and kB to lab system
+        G4ThreeVector vF_l = (1. / (mb + mB)) * pF_l; // velocity vector in CMS of b+B
+        G4ThreeVector ub = (1. / mb) * kb;            // velocity vector of b in CMS of b+B
+        G4ThreeVector uB = (1. / mB) * kB;            // velocity vector of B in CMS of b+B
+        G4ThreeVector vb_l = ub + vF_l;               // velocity vector of b in lab
+        G4ThreeVector vB_l = uB + vF_l;               // velocity vector of B in lab
+        G4ThreeVector pb_l = mb * vb_l;               // momentum vector of b in lab
+        G4ThreeVector pB_l = mB * vB_l;               // momentum vector of B in lab
+
+        // set secondary particles
+        light->SetMomentum(pb_l);
+        light->SetKineticEnergy(pb_l.mag2() / (2. * mb));
+        heavy->SetMomentum(pB_l);
+        heavy->SetKineticEnergy(pB_l.mag2() / (2. * mB));
+        spectator->SetMomentum(ks);
+        spectator->SetKineticEnergy(ks.mag2() / (2. * ms));
+
+        // set secondary tracks
+        G4Track *sec_light = new G4Track(light,
+                                         aTrack.GetGlobalTime(),
+                                         aTrack.GetPosition());
+        G4Track *sec_heavy = new G4Track(heavy,
+                                         aTrack.GetGlobalTime(),
+                                         aTrack.GetPosition());
+        G4Track *sec_s = new G4Track(spectator,
+                                     aTrack.GetGlobalTime(),
+                                     aTrack.GetPosition());
+
+        // add secondary tracks
+        aParticleChange.SetNumberOfSecondaries(3);
+        aParticleChange.AddSecondary(sec_light);
+        aParticleChange.AddSecondary(sec_heavy);
+        aParticleChange.AddSecondary(sec_s);
+        aParticleChange.ProposeEnergy(0.);
+        aParticleChange.ProposeTrackStatus(fStopAndKill);
+        return &aParticleChange;
+    }
+
+    G4VParticleChange *ReactionProcess::TrojanHorseInverse(const G4Track &aTrack, const G4Step &aStep,
+                                                           int Zt, int At,             // target
+                                                           int Z1, int A1, double Ex1, // light recoil
+                                                           int Z2, int A2, double Ex2, // heavy recoil
+                                                           int Zs, int As, double Exs) // spectator
     {
         //
         // 2 steps reaction (1 transfer reaction + 1 two-body reaction)
@@ -741,7 +900,7 @@ namespace MdmPpacSim
         // 1. Sample the momentum of s(neutron)
         G4ThreeVector ks(1., 1., 1.); // momentum vector of s in anti-lab
         G4double ExA = -1000.;
-        while (ExA <= 0.)
+        while (ExA < 0)
         {
             G4double mag_s = G4UniformRand() * ksx; // momentum magnitude of s in anti-lab
             G4double temp = G4UniformRand() * 0.010;

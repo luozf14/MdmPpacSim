@@ -104,7 +104,14 @@ namespace MdmPpacSim
             //
             // Target
             //
-            G4Material *targetMat = new G4Material("Carbon", 2.253 * g / cm3, nist->FindOrBuildMaterial("G4_C"));
+            G4Isotope *isoC12 = new G4Isotope("C12", 6, 12, 12. * g / mole);
+            G4Isotope *isoC13 = new G4Isotope("C13", 6, 13, 13. * g / mole);
+            G4Element *mixedC13 = new G4Element("mixedC13", "mixedC13", 2);
+            mixedC13->AddIsotope(isoC12, 0.3);
+            mixedC13->AddIsotope(isoC13, 0.7);
+            G4Material *targetMat = new G4Material("Carbon", 2.253 * g / cm3, 1);
+            targetMat->AddElement(mixedC13, 1);
+            // G4Material *targetMat = new G4Material("Carbon", 2.253 * g / cm3, nist->FindOrBuildMaterial("G4_C"));
             G4RotationMatrix *targetRot = new G4RotationMatrix;
             targetRot->rotateY(-fTargetRotationAngleInDeg * deg);
             G4ThreeVector targetPos = G4ThreeVector(0, 0 * cm, 0 * cm);
@@ -135,7 +142,8 @@ namespace MdmPpacSim
             //
             // DeltaE detector
             //
-            G4Material *deltaEMat = nist->FindOrBuildMaterial("G4_Si");
+            // G4Material *deltaEMat = nist->FindOrBuildMaterial("G4_Si");
+            G4Material *deltaEMat = nist->FindOrBuildMaterial("G4_Galactic");
             G4ThreeVector deltaEPos = G4ThreeVector(0, 0, fSiDetectorDistanceInCm * cm - 0.5 * cm);
             deltaEPos.setTheta(fSiDetectorAngleInDeg * deg);
             deltaEPos.setPhi(180. * deg);

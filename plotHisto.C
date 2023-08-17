@@ -77,6 +77,8 @@ void plotHisto()
     simData2->SetBranchAddress("PPAC2PositionY", &Y2);
 
     TH2D *h2DeltaEVsE = new TH2D("h2DeltaEVsE", "#DeltaE vs E", 100, 0, 20, 100, 0, 10);
+    TH1D *h1E = new TH1D("h1E", "Si energy", 100, 0, 10);
+    h1E->SetXTitle("Energy [MeV]");
     TH1D *h1SlitBoxE_light = new TH1D("h1SlitBoxE_light", "Slit box energy (light recoil)", 100, 0, 10);
     h1SlitBoxE_light->SetXTitle("Energy [MeV/u]");
     TH1D *h1SlitBoxE_heavy = new TH1D("h1SlitBoxE_heavy", "Slit box energy (heavy recoil)", 100, 0, 2);
@@ -90,21 +92,21 @@ void plotHisto()
     for (int i = 0; i < nEntries; i++)
     {
         simData1->GetEntry(i);
-        // simData2->GetEntry(i);
+        simData2->GetEntry(i);
 
-        if (timeE > 1.)
-        {
-            h2DeltaEVsE->Fill(energyE, energydE);
-        }
         // if (!(frontNo >= 3 && frontNo <= 9 && backNo >= 6 && backNo <= 9))
         //     continue;
 
         if (accepted)
         {
-            if (mass == 4)
+            if (timeE > 1.)
+            {
+                h1E->Fill(energyE);
+            }
+            if (mass == 4 || mass == 1)
                 h1SlitBoxE_light->Fill(energySlitBox / (double)mass);
-            if(mass==20)
-                h1SlitBoxE_heavy->Fill(energySlitBox/(double)mass);
+            if (mass == 20 || mass == 23)
+                h1SlitBoxE_heavy->Fill(energySlitBox / (double)mass);
             if (transmitted)
             {
                 tra++;
@@ -120,7 +122,7 @@ void plotHisto()
 
     TCanvas *c1 = new TCanvas("c1", "c1", 1024, 768);
     c1->cd();
-    h2DeltaEVsE->Draw("colz");
+    h1E->Draw("colz");
 
     TCanvas *c2 = new TCanvas("c2", "c2", 1024, 768);
     c2->Divide(3, 1);
