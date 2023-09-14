@@ -11,7 +11,7 @@
     "SiDetectorDistanceInCm": 14.224,
     "MdmAngleInDeg": 5,
     "PpacGasPressureInTorr": 3,
-    "PpacLengthInCm": 30,
+    "PpacLengthInCm": 20,
     "SiDetectorEnergyResolution": 0.03,
     "TdcResolutionInNs": 0.25,
     "PpacPositionResolutionInMm": 6.3,
