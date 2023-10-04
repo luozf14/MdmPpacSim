@@ -12,10 +12,10 @@
     "PpacGasPressureInTorr": 4,
     "PpacLengthInCm": 42,
     "SiDetectorEnergyResolution": 0.03,
-    "TdcResolutionInNs": 2.0,
+    "TdcResolutionInNs": 0.2,
     "PpacPositionResolutionInMm": 5.0,
-    "MdmMultipoleProbe": 1668,
-    "MdmDipoleProbe": 2349.4,
+    "MdmMultipoleProbe": 1660.5,
+    "MdmDipoleProbe": 2338.8,
     "Target": [6, 12],
     "LightProduct": [2, 4],
     "HeavyProduct": [6, 12]

@@ -49,23 +49,26 @@ namespace MdmPpacSim
 
         //   TwoBody(aTrack,aStep,fTargetCharge, fTargetMass,fLightProductCharge, fLightProductMass, fHeavyProductCharge, fHeavyProductMass, 0.0, 4.44 );
 
-        // G4double ran = G4UniformRand();
-        // if (ran < 0.4)
+        G4double ran = G4UniformRand();
+        if (ran < 0.2)
+        {
+            TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 7.65, 1);
+            // TwoBodyDecay(aTrack, aStep, 8, 16, 2, 4, 0.0, 8, 16, 6.11, 1);
+        }
+        // else if (ran < 0.4)
         // {
-            TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 9.87, 1);
+        //     // TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 4.44, 1);
+        //     TwoBodyDecay(aTrack, aStep, 8, 16, 2, 4, 0.0, 8, 16, 7.0, 1);
         // }
-        // else
+        // else if(ran<0.6)
         // {
-            // TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 7.65, 2);
-        // }
-        // else if (ran < 0.6)
-        // {
+        //     // TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 7.65, 1);
         //     TwoBodyAlphaDecay(aTrack, aStep, 8, 16, 2, 4, 0.0, 8, 16, 10.36);
         // }
-        // else if (ran < 0.8)
-        // {
-        //     TwoBodyNeutronDecay(aTrack, aStep, 6, 13, 2, 4, 0.0, 6, 13, 6.864);
-        // }
+        else
+        {
+            TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge, fHeavyProductMass, 7.65, 2);
+        }
         // else
         // {
         //     TwoBodyNeutronDecay(aTrack, aStep, 6, 13, 2, 4, 0.0, 6, 13, 7.55);
