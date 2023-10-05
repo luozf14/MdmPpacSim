@@ -2,8 +2,8 @@
 TODO
 
 ## Prerequisites
-- Geant4 v11 (for v10, switch to ``G4v10`` branch)
-- C++17 (C++14 for v10)
+- Geant4 v10
+- C++14
 - CMake>=3.16
 
 ## How to use
@@ -39,8 +39,8 @@ TODO
 
 ### Run
 ```
-$ ./exampleB1 ../config/config.json
+$ ./MdmPpacSim ../config/config.json 0
 ```
 
 ### Analysis
-The output data file is ``Stage#.root``. A simple analysis ROOT macro is provided as ``analyze.C``. 
+The output data file is ``Stage#.root``.
