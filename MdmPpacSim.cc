@@ -6,8 +6,10 @@
 // #ifdef G4MULTITHREADED
 // #include "G4MTRunManager.hh"
 // #else
-#include "G4RunManager.hh"
+// #include "G4RunManager.hh"
 // #endif
+
+#include "G4RunManagerFactory.hh"
 
 #include "G4SteppingVerbose.hh"
 #include "G4UImanager.hh"
@@ -124,15 +126,18 @@ int main(int argc, char **argv)
     G4Random::setTheEngine(new CLHEP::MTwistEngine);
     // G4Random::setTheEngine(new CLHEP::RanecuEngine);
     // set random seed with system time
-    CLHEP::HepRandom::setTheSeed(processNum);
+    G4long seed = time(NULL);
+    CLHEP::HepRandom::setTheSeed(seed);
 
     // Construct the default run manager
     //
     // #ifdef G4MULTITHREADED
     //     G4MTRunManager *runManager = new G4MTRunManager;
     // #else
-    G4RunManager *runManager = new G4RunManager;
+    // G4RunManager *runManager = new G4RunManager;
     // #endif
+    G4RunManagerType runManagerType = isTargetChamber ? G4RunManagerType::Serial : G4RunManagerType::Serial;
+    auto *runManager = G4RunManagerFactory::CreateRunManager(runManagerType, 1);
 
     // Set mandatory initialization classes
     //

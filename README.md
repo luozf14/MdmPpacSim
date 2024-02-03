@@ -2,8 +2,8 @@
 TODO
 
 ## Prerequisites
-- Geant4 v10
-- C++14
+- Geant4 v11 (NOT v10!!!)
+- C++17
 - CMake>=3.16
 
 ## How to use

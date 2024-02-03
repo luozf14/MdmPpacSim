@@ -162,15 +162,15 @@ namespace MdmPpacSim
                 fMDMTrace->SetScatteredMass(slitBoxMass);
                 if (slitBoxCharge == 6 && slitBoxMass == 12)
                 {
-                    fMDMTrace->SetScatteredCharge(slitBoxCharge - 1);
+                    fMDMTrace->SetScatteredCharge(5);
                 }
                 else if (slitBoxCharge == 6 && slitBoxMass == 13)
                 {
-                    fMDMTrace->SetScatteredCharge(slitBoxCharge - 1);
+                    fMDMTrace->SetScatteredCharge(5);
                 }
                 else if (slitBoxCharge == 8 && slitBoxMass == 16)
                 {
-                    fMDMTrace->SetScatteredCharge(slitBoxCharge - 1);
+                    fMDMTrace->SetScatteredCharge(8);
                 }
                 else if (slitBoxCharge == 10 && slitBoxMass == 20)
                 {
@@ -179,6 +179,10 @@ namespace MdmPpacSim
                 else if (slitBoxCharge == 11 && slitBoxMass == 23)
                 {
                     fMDMTrace->SetScatteredCharge(8);
+                }
+                else if (slitBoxCharge == 12 && slitBoxMass == 26)
+                {
+                    fMDMTrace->SetScatteredCharge(10);
                 }
                 else
                 {
@@ -229,7 +233,7 @@ namespace MdmPpacSim
                 ppac1HitLocalPosition += (*hcPpac1)[i]->GetLocalPosition();
             }
             ppac1HitLocalPosition = (nofHitsPpac1 > 0) ? ppac1HitLocalPosition / nofHitsPpac1 : G4ThreeVector(0., 0., 0.);
-            ppac1HitTime = (nofHitsPpac1 > 0) ? (ppac1HitTime / nofHitsPpac1 + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
+            ppac1HitTime = (nofHitsPpac1 > 0) ? G4RandGauss::shoot(ppac1HitTime / nofHitsPpac1, fTdcResolutionInNs * ns / 2.355) : 0.;
             ppac1HitEnergy = (nofHitsPpac1 > 0) ? ppac1HitEnergy / nofHitsPpac1 : 0.;
             G4double ppac1PosX = (nofHitsPpac1 > 0) ? G4RandGauss::shoot(ppac1HitLocalPosition.x(), fPpacPositionResolutionInMm * mm / 2.355) : 0.;
             G4double ppac1PosY = (nofHitsPpac1 > 0) ? G4RandGauss::shoot(ppac1HitLocalPosition.y(), fPpacPositionResolutionInMm * mm / 2.355) : 0.;
@@ -251,6 +255,7 @@ namespace MdmPpacSim
             }
             ppac2HitLocalPosition = (nofHitsPpac2 > 0) ? ppac2HitLocalPosition / nofHitsPpac2 : G4ThreeVector(0., 0., 0.);
             ppac2HitTime = (nofHitsPpac2 > 0) ? (ppac2HitTime / nofHitsPpac2 + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
+            ppac2HitTime = (nofHitsPpac2 > 0) ? G4RandGauss::shoot(ppac2HitTime / nofHitsPpac2, fTdcResolutionInNs * ns / 2.355) : 0.;
             ppac2HitEnergy = (nofHitsPpac2 > 0) ? ppac2HitEnergy / nofHitsPpac2 : 0.;
             G4double ppac2PosX = (nofHitsPpac2 > 0) ? G4RandGauss::shoot(ppac2HitLocalPosition.x(), fPpacPositionResolutionInMm * mm / 2.355) : 0.;
             G4double ppac2PosY = (nofHitsPpac2 > 0) ? G4RandGauss::shoot(ppac2HitLocalPosition.y(), fPpacPositionResolutionInMm * mm / 2.355) : 0.;

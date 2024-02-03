@@ -107,8 +107,8 @@ namespace MdmPpacSim
             G4Isotope *isoC12 = new G4Isotope("C12", 6, 12, 12. * g / mole);
             G4Isotope *isoC13 = new G4Isotope("C13", 6, 13, 13. * g / mole);
             G4Element *mixedC13 = new G4Element("mixedC13", "mixedC13", 2);
-            mixedC13->AddIsotope(isoC12, 0.3);
-            mixedC13->AddIsotope(isoC13, 0.7);
+            mixedC13->AddIsotope(isoC12, 0.03);
+            mixedC13->AddIsotope(isoC13, 0.97);
             G4Material *targetMat = new G4Material("Carbon", 2.253 * g / cm3, 1);
             targetMat->AddElement(mixedC13, 1);
             // G4Material *targetMat = new G4Material("Carbon", 2.253 * g / cm3, nist->FindOrBuildMaterial("G4_C"));

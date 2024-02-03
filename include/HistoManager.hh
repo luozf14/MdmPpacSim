@@ -34,7 +34,7 @@
 #ifndef HistoManager_h
 #define HistoManager_h 1
 
-#include "g4analysis.hh"
+#include "G4AnalysisManager.hh"
 #include "globals.hh"
 #include "G4UnitsTable.hh"
 
