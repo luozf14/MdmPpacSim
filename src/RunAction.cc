@@ -31,6 +31,8 @@
 #include "PrimaryGeneratorAction.hh"
 #include "DetectorConstruction.hh"
 #include "HistoManager.hh"
+#include "MDMTrace.h"
+
 // #include "Run.hh"
 
 #include "G4RunManager.hh"
@@ -45,16 +47,21 @@ namespace MdmPpacSim
 {
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-    RunAction::RunAction(HistoManager *histoMan)
-        : G4UserRunAction(), fHistoManager(histoMan)
+    RunAction::RunAction(HistoManager *histoMan, MDMTrace *mdmTrace)
+        : G4UserRunAction(), fHistoManager(histoMan),fMDMTrace(mdmTrace)
     {
+        // G4int threadId = G4Threading::G4GetThreadId();
+        // std::string commandShell = "cp rayin.dat rayin_"+std::to_string(threadId)+".dat";
+        // std::system(commandShell.c_str());
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     RunAction::~RunAction()
     {
+        G4int threadId = G4Threading::G4GetThreadId();
+        std::string commandShell = "rm rayin_"+std::to_string(threadId)+".dat";
+        std::system(commandShell.c_str());
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

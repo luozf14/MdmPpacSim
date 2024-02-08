@@ -3,7 +3,7 @@
     "RunMacro": "run.mac",
     "WaveFunction": "waveFunction.txt",
     "ProcessNumber": 0,
-    "IsTargetChamber": false,
+    "IsTargetChamber": true,
     "BeamEnergy": 45.0,
     "TargetThicknessInUm": 0.355,
     "TargetRotationAngleInDeg": 10.0,

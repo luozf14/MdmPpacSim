@@ -9,10 +9,11 @@ C**** BLDG 26-427
 C**** CAMBRIDGE MASS 02139
 C**** PH 617+253-4288
 C****
-      SUBROUTINE raytrace(NCTL)
+      SUBROUTINE raytrace(NCTL,INPUTFILENAME)
       IMPLICIT REAL*8(A-H,O-Z)
       REAL*8   K
       LOGICAL LPLT   	
+      CHARACTER*100 INPUTFILENAME
 c	character*24 ctemp
 
 C%%%% REAL*4 DAET, TYME
@@ -96,7 +97,8 @@ C*IBM CALL ERRSET( 209, 256, 1 )
 C*IBM CALL ERRSET( 210, 256, 1 )
 C****
 c      open(unit=6,file='output.dat',status='unknown')
-      open(unit=5,file='rayin.dat',status='unknown')		
+      OPEN(UNIT=5, FILE=TRIM(INPUTFILENAME), STATUS='OLD', ACTION='READ')
+C      open(unit=5,file='rayin.dat',status='old',action='read')		
 C****
       IF(NCTL.EQ.1 .OR. NCTL.EQ.2) THEN
         EMASS = PMASS*931.48

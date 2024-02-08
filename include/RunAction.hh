@@ -45,17 +45,19 @@ class G4Run;
 namespace MdmPpacSim
 {
     class HistoManager;
+    class MDMTrace;
 
     class RunAction : public G4UserRunAction
     {
     public:
-        RunAction(HistoManager *);
+        RunAction(HistoManager *, MDMTrace *);
         ~RunAction() override;
 
         void BeginOfRunAction(const G4Run *) override;
         void EndOfRunAction(const G4Run *) override;
 
         HistoManager *GetHistoManager() { return fHistoManager; }
+        MDMTrace *GetMDMTrace() { return fMDMTrace; }
         void SetIsTargetChamber(G4bool isTargetChamber) { fIsTargetChamber = isTargetChamber; }
         void SetProcessNum(G4int num) { fProcessNum = num; }
 
@@ -64,6 +66,7 @@ namespace MdmPpacSim
         G4bool fIsTargetChamber;
         HistoManager *fHistoManager = nullptr;
         G4int fProcessNum;
+        MDMTrace *fMDMTrace=nullptr;
     };
 
 }

@@ -2,11 +2,12 @@
 #include <iostream>
 #include <math.h>
 #include <stdio.h>
+#include <cstring>
 namespace MdmPpacSim
 {
     extern "C"
     {
-        void raytrace_(int *);
+        void raytrace_(int *, char *);
 
         extern struct
         {
@@ -73,10 +74,16 @@ namespace MdmPpacSim
     //   return instance_;
     // }
 
-    MDMTrace::MDMTrace()
+    MDMTrace::MDMTrace(int tId)
     {
+        threadId = tId;
+        std::string name = "rayin_" + std::to_string(threadId) + ".dat";
         int flag = 0;
-        raytrace_(&flag);
+        char INPUTFILENAME[100];
+        std::cout<<"creating mdmtrace with thread="<<threadId<<std::endl;
+        strcpy(INPUTFILENAME, name.c_str());
+        raytrace_(&flag, &INPUTFILENAME[0]);
+        std::cout<<"created mdmtrace with thread="<<threadId<<std::endl;
         kineblck_.TRGT1 = 0.;
         beamEnergy_ = 0;
         scatteredEnergy_ = 0;
@@ -267,13 +274,19 @@ namespace MdmPpacSim
     void MDMTrace::SendRayWithKinematics()
     {
         int flag = 1;
+        std::string name = "rayin_" + std::to_string(threadId) + ".dat";
+        char INPUTFILENAME[100];
+        strcpy(INPUTFILENAME, name.c_str());
         blck4_.ENERGY = beamEnergy_;
-        raytrace_(&flag);
+        raytrace_(&flag, &INPUTFILENAME[0]);
     }
 
     void MDMTrace::SendRay()
     {
         int flag = 2;
+        std::string name = "rayin_" + std::to_string(threadId) + ".dat";
+        char INPUTFILENAME[100];
+        strcpy(INPUTFILENAME, name.c_str());
         blck4_.ENERGY = scatteredEnergy_;
         blck1_.XI[0] = 0.;
         blck1_.YI[0] = 0.;
@@ -282,7 +295,7 @@ namespace MdmPpacSim
         blck1_.VYI[0] = 17.453 * (scatteredAngles_[1]);
         blck1_.VZI[0] = 0.;
         blck1_.DELP[0] = 0.;
-        raytrace_(&flag);
+        raytrace_(&flag, &INPUTFILENAME[0]);
     }
 
     void MDMTrace::GetPositionAngleFirstWire(double &pos, double &ang) const

@@ -78,7 +78,7 @@ namespace MdmPpacSim
         //
         if (fIsTargetChamber)
         {
-            G4bool fileOpen = analysisManager->OpenFile("Stage1~" + std::to_string(processNum));
+            G4bool fileOpen = analysisManager->OpenFile("Stage1_" + std::to_string(processNum));
             if (!fileOpen)
             {
                 G4cerr << "\n---> HistoManager::Book(): cannot open "
@@ -151,7 +151,7 @@ namespace MdmPpacSim
         }
         else
         {
-            G4bool fileOpen = analysisManager->OpenFile("Stage2~" + std::to_string(processNum));
+            G4bool fileOpen = analysisManager->OpenFile("Stage2_" + std::to_string(processNum));
             if (!fileOpen)
             {
                 G4cerr << "\n---> HistoManager::Book(): cannot open "
@@ -179,7 +179,6 @@ namespace MdmPpacSim
 
             fFactoryOn = true;
         }
-
         G4cout << "\n----> Output file is open in "
                << analysisManager->GetFileName() << "."
                << analysisManager->GetFileType() << G4endl;

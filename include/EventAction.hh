@@ -58,7 +58,7 @@ namespace MdmPpacSim
     private:
         RunAction *fRunAction = nullptr;
         HistoManager *fHistoManager = nullptr;
-        MDMTrace *fMDMTrace=nullptr;
+        MDMTrace *fMDMTrace;
         std::map<std::string, G4double> fEventActionParams;
         G4bool fIsTargetChamber;
         G4double fSiDetectorEnergyResolution;

@@ -6,7 +6,7 @@ project(MdmPpacSim)
 enable_language(Fortran)
 SET(CMAKE_Fortran_FLAGS "-fPIC -finit-local-zero -falign-commons -fno-automatic -ffixed-line-length-none -w")
 
-SET(CMAKE_CXX_STANDARD 14)
+SET(CMAKE_CXX_STANDARD 17)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 SET(CMAKE_BUILD_TYPE "Debug")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
@@ -27,10 +27,11 @@ else()
 endif()
 
 # Find ROOT
-find_package(ROOT REQUIRED)
+find_package(ROOT CONFIG REQUIRED RIO)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ROOT_CXX_FLAGS}")
 include_directories(${ROOT_INCLUDE_DIRS})
-message(${ROOT_INCLUDE_DIRS})
+# message(${ROOT_INCLUDE_DIRS})
+# message(${ROOT_LIBRARIES})
 
 # ----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
@@ -45,8 +46,8 @@ include_directories(${PROJECT_SOURCE_DIR}/include
 # Locate sources and headers for this project
 # NB: headers are included so they will show up in IDEs
 #
-file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc ${PROJECT_SOURCE_DIR}/src/MDMTrace.cpp ${PROJECT_SOURCE_DIR}/src/RAYTKIN1.F )
-file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh ${PROJECT_SOURCE_DIR}/include/MDMTrace.h)
+file(GLOB sources ${PROJECT_SOURCE_DIR}/src/*.cc src/MDMTrace.cpp src/RAYTKIN1.F)
+file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh include/MDMTrace.h)
 
 # add_library(MDMTrace SHARED src/MDMTrace.cpp src/RAYTKIN1.F include/MDMTrace.h)
 # target_link_libraries(MDMTrace c gfortran)

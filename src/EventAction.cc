@@ -42,11 +42,12 @@
 namespace MdmPpacSim
 {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
     EventAction::EventAction(RunAction *runAction)
         : G4UserEventAction(), fRunAction(runAction)
     {
-        fMDMTrace = new MDMTrace();
+        G4int threadId = G4Threading::G4GetThreadId();
+        G4cout << "--->In EventAction::EventAction, threadId=" << threadId << G4endl;
+        fMDMTrace = runAction->GetMDMTrace();
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

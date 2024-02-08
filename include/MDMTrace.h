@@ -6,7 +6,7 @@ namespace MdmPpacSim
     {
     public:
         // static MDMTrace* Instance();
-        MDMTrace();
+        MDMTrace(int threadId);
         void SetBeamEnergy(double);
         double GetBeamEnergy() const;
         void SetMDMAngle(double);
@@ -47,6 +47,7 @@ namespace MdmPpacSim
     private:
         // MDMTrace() {};
         // static MDMTrace* instance_;
+        int threadId;
         static double jeffParams_[6];
         static double oxfordWireSpacing_[3];
         double beamEnergy_;

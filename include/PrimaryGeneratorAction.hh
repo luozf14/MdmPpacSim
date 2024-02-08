@@ -66,9 +66,9 @@ namespace MdmPpacSim
 
     private:
         RunAction *fRunAction = nullptr;
+        G4bool fIsTargetChamber;
         G4int fProcessNum;
         G4ParticleGun *fParticleGun = nullptr; // pointer a to G4 gun class
-        G4bool fIsTargetChamber;
         G4double fBeamEnergy;
         BeamEmittance *fBeamEmittance = nullptr;
 
