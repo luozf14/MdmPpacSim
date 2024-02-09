@@ -39,10 +39,10 @@ int main(int argc, char **argv)
 {
     // Detect interactive mode (if no arguments) and define UI session
     //
-    if (argc != 2)
+    if (argc != 3)
     {
         G4cerr << "--->Error: wrong input parameters!"
-               << "\n--->Usage: ./MdmPpacSim <config.json>" << G4endl;
+               << "\n--->Usage: ./MdmPpacSim <config.json> <process number>" << G4endl;
         return 0;
     }
 
@@ -56,8 +56,8 @@ int main(int argc, char **argv)
     // main level
     G4bool useGUI = config["GUI"].get<G4bool>();
     G4String runMac = config["RunMacro"].get<std::string>();
-    G4int processNum = config["ProcessNumber"].get<G4int>();
-    // G4int processNum = std::stoi(argv[2]);
+    // G4int processNum = config["ProcessNumber"].get<G4int>();
+    G4int processNum = std::stoi(argv[2]);
     G4bool isTargetChamber = config["IsTargetChamber"].get<G4bool>();
     // Beam
     G4double beamEnergy = config["BeamEnergy"].get<G4double>();
@@ -124,9 +124,8 @@ int main(int argc, char **argv)
 
     // Optionally: choose a different Random engine...
     G4Random::setTheEngine(new CLHEP::MTwistEngine);
-    // G4Random::setTheEngine(new CLHEP::RanecuEngine);
     // set random seed with system time
-    G4long seed = time(NULL);
+    G4long seed = time(NULL) + processNum;
     CLHEP::HepRandom::setTheSeed(seed);
 
     // Construct the default run manager
@@ -136,8 +135,8 @@ int main(int argc, char **argv)
     // #else
     // G4RunManager *runManager = new G4RunManager;
     // #endif
-    G4RunManagerType runManagerType = isTargetChamber ? G4RunManagerType::Serial : G4RunManagerType::Serial;
-    auto *runManager = G4RunManagerFactory::CreateRunManager(runManagerType, 2);
+    // G4RunManagerType runManagerType = isTargetChamber ? G4RunManagerType::Serial : G4RunManagerType::Serial;
+    auto *runManager = G4RunManagerFactory::CreateRunManager(G4RunManagerType::Serial);
 
     // Set mandatory initialization classes
     //

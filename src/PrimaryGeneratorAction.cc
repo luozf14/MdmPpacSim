@@ -80,7 +80,7 @@ namespace MdmPpacSim
     else
     {
       auto analysisReader = G4AnalysisReader::Instance();
-      analysisReader->SetFileName("Stage1~" + std::to_string(fProcessNum) +
+      analysisReader->SetFileName("Stage1_" + std::to_string(fProcessNum) +
                                   ".root");
       G4int ntupleId = analysisReader->GetNtuple("Stage1Data");
       analysisReader->SetNtupleIColumn(ntupleId, "SlitBoxTransmitted",
@@ -122,9 +122,12 @@ namespace MdmPpacSim
           ion = particleTable->GetIonTable()->GetIon(Z, A, 0.0);
         // ion = particleTable->FindParticle("alpha");
         fParticleGun->SetParticleDefinition(ion);
-        fParticleGun->SetParticleEnergy(G4RandGauss::shoot(
-            fBeamEnergy * MeV, 0.005 * fBeamEnergy * MeV / 2.355));
       }
+
+      G4double energy = fBeamEnergy * G4UniformRand();
+      fParticleGun->SetParticleEnergy(energy * MeV);
+      // fParticleGun->SetParticleEnergy(G4RandGauss::shoot(
+      // fBeamEnergy * MeV, 0.005 * fBeamEnergy * MeV / 2.355));
 
       // pencil beam
       // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1));

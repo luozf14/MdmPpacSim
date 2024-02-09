@@ -65,10 +65,11 @@ namespace MdmPpacSim
             analysisManager->SetDefaultFileType("root");
             analysisManager->SetVerboseLevel(1);
             // Only merge in MT mode to avoid warning when running in Sequential mode
-#ifdef G4MULTITHREADED
-            analysisManager->SetNtupleMerging(true);
-#endif
-            analysisManager->SetCompressionLevel(2);
+            if (G4Threading::IsMultithreadedApplication())
+            {
+                analysisManager->SetNtupleMerging(true);
+            }
+            analysisManager->SetCompressionLevel(6);
             // Create directories
             //   analysisManager->SetHistoDirectoryName("histo");
             //   analysisManager->SetNtupleDirectoryName("ntuple");

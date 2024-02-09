@@ -50,17 +50,14 @@ namespace MdmPpacSim
     RunAction::RunAction(HistoManager *histoMan, MDMTrace *mdmTrace)
         : G4UserRunAction(), fHistoManager(histoMan),fMDMTrace(mdmTrace)
     {
-        // G4int threadId = G4Threading::G4GetThreadId();
-        // std::string commandShell = "cp rayin.dat rayin_"+std::to_string(threadId)+".dat";
-        // std::system(commandShell.c_str());
     }
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
     RunAction::~RunAction()
     {
-        G4int threadId = G4Threading::G4GetThreadId();
-        std::string commandShell = "rm rayin_"+std::to_string(threadId)+".dat";
+        // G4int threadId = G4Threading::G4GetThreadId();
+        std::string commandShell = "rm rayin_"+std::to_string(fProcessNum)+".dat";
         std::system(commandShell.c_str());
     }
 

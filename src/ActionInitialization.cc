@@ -56,11 +56,11 @@ namespace MdmPpacSim
     void ActionInitialization::BuildForMaster() const
     {
         HistoManager *histoMan = new HistoManager();
-        G4int threadId = G4Threading::G4GetThreadId();
+        // G4int threadId = G4Threading::G4GetThreadId();
         // G4cout << "--->In ActionInitialization::BuildForMaster(), threadId=" << threadId << G4endl;
-        std::string commandShell = "cp rayin.dat rayin_"+std::to_string(threadId)+".dat";
+        std::string commandShell = "cp rayin.dat rayin_"+std::to_string(fProcessNum)+".dat";
         std::system(commandShell.c_str());
-        MDMTrace *mdmTrace = new MDMTrace(threadId);
+        MDMTrace *mdmTrace = new MDMTrace(fProcessNum);
         RunAction *runAction = new RunAction(histoMan,mdmTrace);
         runAction->SetIsTargetChamber(fIsTargetChamber);
         runAction->SetProcessNum(fProcessNum);
@@ -74,9 +74,9 @@ namespace MdmPpacSim
         HistoManager *histoMan = new HistoManager();
         G4int threadId = G4Threading::G4GetThreadId();
         // G4cout << "--->In ActionInitialization::Build(), threadId=" << threadId << G4endl;
-        std::string commandShell = "cp rayin.dat rayin_"+std::to_string(threadId)+".dat";
+        std::string commandShell = "cp rayin.dat rayin_"+std::to_string(fProcessNum)+".dat";
         std::system(commandShell.c_str());
-        MDMTrace *mdmTrace = new MDMTrace(threadId);
+        MDMTrace *mdmTrace = new MDMTrace(fProcessNum);
         RunAction *runAction = new RunAction(histoMan,mdmTrace);
         runAction->SetIsTargetChamber(fIsTargetChamber);
         runAction->SetProcessNum(fProcessNum);

@@ -45,8 +45,8 @@ namespace MdmPpacSim
     EventAction::EventAction(RunAction *runAction)
         : G4UserEventAction(), fRunAction(runAction)
     {
-        G4int threadId = G4Threading::G4GetThreadId();
-        G4cout << "--->In EventAction::EventAction, threadId=" << threadId << G4endl;
+        // G4int threadId = G4Threading::G4GetThreadId();
+        // G4cout << "--->In EventAction::EventAction, threadId=" << threadId << G4endl;
         fMDMTrace = runAction->GetMDMTrace();
     }
 
@@ -255,7 +255,7 @@ namespace MdmPpacSim
                 ppac2HitLocalPosition += (*hcPpac2)[i]->GetLocalPosition();
             }
             ppac2HitLocalPosition = (nofHitsPpac2 > 0) ? ppac2HitLocalPosition / nofHitsPpac2 : G4ThreeVector(0., 0., 0.);
-            ppac2HitTime = (nofHitsPpac2 > 0) ? (ppac2HitTime / nofHitsPpac2 + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
+            // ppac2HitTime = (nofHitsPpac2 > 0) ? (ppac2HitTime / nofHitsPpac2 + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
             ppac2HitTime = (nofHitsPpac2 > 0) ? G4RandGauss::shoot(ppac2HitTime / nofHitsPpac2, fTdcResolutionInNs * ns / 2.355) : 0.;
             ppac2HitEnergy = (nofHitsPpac2 > 0) ? ppac2HitEnergy / nofHitsPpac2 : 0.;
             G4double ppac2PosX = (nofHitsPpac2 > 0) ? G4RandGauss::shoot(ppac2HitLocalPosition.x(), fPpacPositionResolutionInMm * mm / 2.355) : 0.;

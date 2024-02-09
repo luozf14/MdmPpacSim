@@ -49,6 +49,7 @@ void plotHisto()
 
     Int_t completed;
     Double_t X1, Y1, X2, Y2;
+    Double_t tof;
 
     simData1->SetBranchAddress("DeltaEEdep", &energydE);
     simData1->SetBranchAddress("DeltETime", &timedE);
@@ -75,6 +76,7 @@ void plotHisto()
     simData2->SetBranchAddress("PPAC1PositionY", &Y1);
     simData2->SetBranchAddress("PPAC2PositionX", &X2);
     simData2->SetBranchAddress("PPAC2PositionY", &Y2);
+    simData2->SetBranchAddress("PPACTof", &tof);
 
     TH2D *h2DeltaEVsE = new TH2D("h2DeltaEVsE", "#DeltaE vs E", 100, 0, 20, 100, 0, 10);
     TH1D *h1E = new TH1D("h1E", "Si energy", 100, 0, 10);
@@ -85,6 +87,10 @@ void plotHisto()
     h1SlitBoxE_heavy->SetXTitle("Energy [MeV/u]");
     TH1D *h1SlitBoxE_heavy_trans = new TH1D("h1SlitBoxE_heavy_trans", "Slit box energy (heavy recoil, transmitted)", 100, 0, 2);
     h1SlitBoxE_heavy_trans->SetXTitle("Energy [MeV/u]");
+
+    TH2D *h2TofVsX1 = new TH2D("h2TofVsX1", "Tof vs X1", 100, -20, 20, 100, 0, 30);
+    h2TofVsX1->SetXTitle("X1 (cm)");
+    h2TofVsX1->SetYTitle("Tof (ns)");
 
     Int_t nEntries = (Int_t)simData1->GetEntries();
     Int_t tra = 0;
@@ -114,6 +120,7 @@ void plotHisto()
                 if (completed)
                 {
                     com++;
+                    h2TofVsX1->Fill(X1,tof);
                 }
             }
         }
@@ -122,14 +129,14 @@ void plotHisto()
 
     TCanvas *c1 = new TCanvas("c1", "c1", 1024, 768);
     c1->cd();
-    h1E->Draw("colz");
+    h2TofVsX1->Draw("colz");
 
-    TCanvas *c2 = new TCanvas("c2", "c2", 1024, 768);
-    c2->Divide(3, 1);
-    c2->cd(1);
-    h1SlitBoxE_light->Draw();
-    c2->cd(2);
-    h1SlitBoxE_heavy->Draw();
-    c2->cd(3);
-    h1SlitBoxE_heavy_trans->Draw();
+    // TCanvas *c2 = new TCanvas("c2", "c2", 1024, 768);
+    // c2->Divide(3, 1);
+    // c2->cd(1);
+    // h1SlitBoxE_light->Draw();
+    // c2->cd(2);
+    // h1SlitBoxE_heavy->Draw();
+    // c2->cd(3);
+    // h1SlitBoxE_heavy_trans->Draw();
 }
