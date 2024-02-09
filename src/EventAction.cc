@@ -161,27 +161,31 @@ namespace MdmPpacSim
                 slitBoxTime = (*hcSlitBox)[nofHitsSlitBox - 1]->GetHitTime();
 
                 fMDMTrace->SetScatteredMass(slitBoxMass);
-                if (slitBoxCharge == 6 && slitBoxMass == 12)
+                if (slitBoxCharge == 6 && slitBoxMass == 12) //12C
                 {
                     fMDMTrace->SetScatteredCharge(5);
                 }
-                else if (slitBoxCharge == 6 && slitBoxMass == 13)
+                else if (slitBoxCharge == 6 && slitBoxMass == 13) //13C
                 {
                     fMDMTrace->SetScatteredCharge(5);
                 }
-                else if (slitBoxCharge == 8 && slitBoxMass == 16)
+                else if (slitBoxCharge == 8 && slitBoxMass == 16) //16O
                 {
                     fMDMTrace->SetScatteredCharge(8);
                 }
-                else if (slitBoxCharge == 10 && slitBoxMass == 20)
+                else if (slitBoxCharge == 8 && slitBoxMass == 18) //18O
                 {
                     fMDMTrace->SetScatteredCharge(8);
                 }
-                else if (slitBoxCharge == 11 && slitBoxMass == 23)
+                else if (slitBoxCharge == 10 && slitBoxMass == 20) // 20Ne
                 {
                     fMDMTrace->SetScatteredCharge(8);
                 }
-                else if (slitBoxCharge == 12 && slitBoxMass == 26)
+                else if (slitBoxCharge == 11 && slitBoxMass == 23) //23Na
+                {
+                    fMDMTrace->SetScatteredCharge(8);
+                }
+                else if (slitBoxCharge == 12 && slitBoxMass == 26) //26Mg
                 {
                     fMDMTrace->SetScatteredCharge(10);
                 }

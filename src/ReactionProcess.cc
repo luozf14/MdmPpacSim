@@ -59,18 +59,20 @@ namespace MdmPpacSim
     //             3.6, 0, 1, 0.0);
 
     G4double ran = G4UniformRand();
-    if (ran < 0.5)
-    {
-        TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass,
-        fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge,
-        fHeavyProductMass, 0.0, 1);
-    }
-    else
-    {
+    // if (ran < 0.5)
+    // {
+        // TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass,
+        // fLightProductCharge, fLightProductMass, 0.0, fHeavyProductCharge,
+        // fHeavyProductMass, 0.0, 1);
+        // TwoBody(aTrack, aStep, fTargetCharge, fTargetMass, fLightProductCharge, fLightProductMass,fHeavyProductCharge,
+        // fHeavyProductMass,0,0);
+    // }
+    // else
+    // {
     TwoBodyDecay(aTrack, aStep, fTargetCharge, fTargetMass,
                  6, 13, 0.0, 8,
                  18, 0.0, 1);
-    }
+    // }
     // else if (ran < 0.6)
     // {
     //     TwoBodyAlphaDecay(aTrack, aStep, 8, 16, 2, 4, 0.0, 8, 16, 10.36);

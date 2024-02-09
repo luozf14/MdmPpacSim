@@ -72,7 +72,7 @@ namespace MdmPpacSim
     void ActionInitialization::Build() const
     {
         HistoManager *histoMan = new HistoManager();
-        G4int threadId = G4Threading::G4GetThreadId();
+        // G4int threadId = G4Threading::G4GetThreadId();
         // G4cout << "--->In ActionInitialization::Build(), threadId=" << threadId << G4endl;
         std::string commandShell = "cp rayin.dat rayin_"+std::to_string(fProcessNum)+".dat";
         std::system(commandShell.c_str());

@@ -31,8 +31,8 @@ Double_t L = 5.;      // length of E detector
 
 void plotHisto()
 {
-    TFile *file1 = new TFile("Stage1~0.root", "READ");
-    TFile *file2 = new TFile("Stage2~0.root", "READ");
+    TFile *file1 = new TFile("Stage1.root", "READ");
+    TFile *file2 = new TFile("Stage2.root", "READ");
 
     TTree *simData1 = (TTree *)file1->Get("Stage1Data");
     TTree *simData2 = (TTree *)file2->Get("Stage2Data");
@@ -83,12 +83,12 @@ void plotHisto()
     h1E->SetXTitle("Energy [MeV]");
     TH1D *h1SlitBoxE_light = new TH1D("h1SlitBoxE_light", "Slit box energy (light recoil)", 100, 0, 10);
     h1SlitBoxE_light->SetXTitle("Energy [MeV/u]");
-    TH1D *h1SlitBoxE_heavy = new TH1D("h1SlitBoxE_heavy", "Slit box energy (heavy recoil)", 100, 0, 2);
+    TH1D *h1SlitBoxE_heavy = new TH1D("h1SlitBoxE_heavy", "Slit box energy (heavy recoil)", 100, 0, 5);
     h1SlitBoxE_heavy->SetXTitle("Energy [MeV/u]");
-    TH1D *h1SlitBoxE_heavy_trans = new TH1D("h1SlitBoxE_heavy_trans", "Slit box energy (heavy recoil, transmitted)", 100, 0, 2);
+    TH1D *h1SlitBoxE_heavy_trans = new TH1D("h1SlitBoxE_heavy_trans", "Slit box energy (heavy recoil, transmitted)", 100, 0, 5);
     h1SlitBoxE_heavy_trans->SetXTitle("Energy [MeV/u]");
 
-    TH2D *h2TofVsX1 = new TH2D("h2TofVsX1", "Tof vs X1", 100, -20, 20, 100, 0, 30);
+    TH2D *h2TofVsX1 = new TH2D("h2TofVsX1", "Tof vs X1", 100, -20, 20, 100, 0, 100);
     h2TofVsX1->SetXTitle("X1 (cm)");
     h2TofVsX1->SetYTitle("Tof (ns)");
 
@@ -109,9 +109,9 @@ void plotHisto()
             {
                 h1E->Fill(energyE);
             }
-            if (mass == 4 || mass == 1)
+            if (mass == 13)
                 h1SlitBoxE_light->Fill(energySlitBox / (double)mass);
-            if (mass == 20 || mass == 23)
+            if (mass == 18)
                 h1SlitBoxE_heavy->Fill(energySlitBox / (double)mass);
             if (transmitted)
             {
@@ -131,12 +131,12 @@ void plotHisto()
     c1->cd();
     h2TofVsX1->Draw("colz");
 
-    // TCanvas *c2 = new TCanvas("c2", "c2", 1024, 768);
-    // c2->Divide(3, 1);
-    // c2->cd(1);
-    // h1SlitBoxE_light->Draw();
-    // c2->cd(2);
-    // h1SlitBoxE_heavy->Draw();
-    // c2->cd(3);
-    // h1SlitBoxE_heavy_trans->Draw();
+    TCanvas *c2 = new TCanvas("c2", "c2", 1024, 768);
+    c2->Divide(3, 1);
+    c2->cd(1);
+    h1SlitBoxE_light->Draw();
+    c2->cd(2);
+    h1SlitBoxE_heavy->Draw();
+    c2->cd(3);
+    h1SlitBoxE_heavy_trans->Draw();
 }

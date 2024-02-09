@@ -1,5 +1,5 @@
 {
-    "GUI": false,
+    "GUI": true,
     "RunMacro": "run.mac",
     "WaveFunction": "waveFunction.txt",
     "ProcessNumber": 0,

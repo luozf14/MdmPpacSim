@@ -124,10 +124,9 @@ namespace MdmPpacSim
         fParticleGun->SetParticleDefinition(ion);
       }
 
-      G4double energy = fBeamEnergy * G4UniformRand();
-      fParticleGun->SetParticleEnergy(energy * MeV);
-      // fParticleGun->SetParticleEnergy(G4RandGauss::shoot(
-      // fBeamEnergy * MeV, 0.005 * fBeamEnergy * MeV / 2.355));
+      // G4double energy = fBeamEnergy * G4UniformRand();
+      // fParticleGun->SetParticleEnergy(energy * MeV);
+      fParticleGun->SetParticleEnergy(G4RandGauss::shoot(fBeamEnergy * MeV, 0.005 * fBeamEnergy * MeV / 2.355));
 
       // pencil beam
       // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1));
