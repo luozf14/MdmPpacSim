@@ -69,6 +69,7 @@ set(MDMPPACSIM_SCRIPTS
     vis.mac
     plotHisto.C
     rayin.dat
+    mp_run.sh
     waveFunction.txt
 )
 
