@@ -136,23 +136,24 @@ namespace MdmPpacSim
                               0,                                    // copy number
                               checkOverlaps);                       // overlaps checking
 
-            G4double maxStep = 0.1 * targetDz;
+            G4double maxStep = 0.25 * targetDz;
             logicTarget->SetUserLimits(new G4UserLimits(maxStep));
 
             //
             // DeltaE detector
             //
             // G4Material *deltaEMat = nist->FindOrBuildMaterial("G4_Si");
-            G4Material *deltaEMat = nist->FindOrBuildMaterial("G4_Galactic");
-            G4ThreeVector deltaEPos = G4ThreeVector(0, 0, fSiDetectorDistanceInCm * cm - 0.5 * cm);
+            // G4Material *deltaEMat = nist->FindOrBuildMaterial("G4_Galactic");
+            G4Material *deltaEMat = nist->FindOrBuildMaterial("G4_KAPTON");
+            G4ThreeVector deltaEPos = G4ThreeVector(0, 0, fSiDetectorDistanceInCm * cm - 1.0 * cm);
             deltaEPos.setTheta(fSiDetectorAngleInDeg * deg);
             deltaEPos.setPhi(180. * deg);
             G4RotationMatrix *deltaERot = new G4RotationMatrix;
             deltaERot->rotateY(-fSiDetectorAngleInDeg * deg);
             // Box shape
-            G4double deltaEX = 5. * cm;
-            G4double deltaEY = 5. * cm;
-            G4double deltaEZ = 32. * um;
+            G4double deltaEX = 6. * cm;
+            G4double deltaEY = 6. * cm;
+            G4double deltaEZ = 6.5 * um;
 
             G4Box *solidDeltaE =
                 new G4Box("SolidDeltaE",
