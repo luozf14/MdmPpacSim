@@ -97,53 +97,57 @@ namespace MdmPpacSim
                 // Create 1st ntuple (id = 0)
                 analysisManager->CreateNtuple("Stage1Data", "Simulation data of stage 1");
 
-                analysisManager->CreateNtupleDColumn("DeltaEEdep"); // column Id = 0
-                analysisManager->CreateNtupleDColumn("DeltETime");  // column Id = 1
+                analysisManager->CreateNtupleDColumn("DeltaEEdep");  // column Id = 0
+                analysisManager->CreateNtupleDColumn("DeltETime");   // column Id = 1
+                analysisManager->CreateNtupleIColumn("DeltECharge"); // column Id = 2
+                analysisManager->CreateNtupleIColumn("DeltEMass");   // column Id = 3
 
-                analysisManager->CreateNtupleDColumn("SiEdep");               // column Id = 2
-                analysisManager->CreateNtupleDColumn("SiTime");               // column Id = 3
-                analysisManager->CreateNtupleDColumn("SiHitPosition.x");      // column Id = 4
-                analysisManager->CreateNtupleDColumn("SiHitPosition.y");      // column Id = 5
-                analysisManager->CreateNtupleDColumn("SiHitPosition.z");      // column Id = 6
-                analysisManager->CreateNtupleDColumn("SiHitLocalPosition.x"); // column Id = 7
-                analysisManager->CreateNtupleDColumn("SiHitLocalPosition.y"); // column Id = 8
-                analysisManager->CreateNtupleDColumn("SiHitLocalPosition.z"); // column Id = 9
-                analysisManager->CreateNtupleIColumn("SiFrontStripNo");       // column Id = 10
-                analysisManager->CreateNtupleIColumn("SiBackStripNo");        // column Id = 11
+                analysisManager->CreateNtupleDColumn("SiEdep");               // column Id = 4
+                analysisManager->CreateNtupleDColumn("SiTime");               // column Id = 5
+                analysisManager->CreateNtupleIColumn("SiCharge");             // column Id = 6
+                analysisManager->CreateNtupleIColumn("SiMass");               // column Id = 7
+                analysisManager->CreateNtupleDColumn("SiHitPosition.x");      // column Id = 8
+                analysisManager->CreateNtupleDColumn("SiHitPosition.y");      // column Id = 9
+                analysisManager->CreateNtupleDColumn("SiHitPosition.z");      // column Id = 10
+                analysisManager->CreateNtupleDColumn("SiHitLocalPosition.x"); // column Id = 11
+                analysisManager->CreateNtupleDColumn("SiHitLocalPosition.y"); // column Id = 12
+                analysisManager->CreateNtupleDColumn("SiHitLocalPosition.z"); // column Id = 13
+                analysisManager->CreateNtupleIColumn("SiFrontStripNo");       // column Id = 14
+                analysisManager->CreateNtupleIColumn("SiBackStripNo");        // column Id = 15
 
-                analysisManager->CreateNtupleIColumn("SlitBoxAccepted");           // column Id = 12
-                analysisManager->CreateNtupleIColumn("SlitBoxTransmitted");        // column Id = 13
-                analysisManager->CreateNtupleDColumn("SlitBoxHitPosition.x");      // column Id = 14
-                analysisManager->CreateNtupleDColumn("SlitBoxHitPosition.y");      // column Id = 15
-                analysisManager->CreateNtupleDColumn("SlitBoxHitPosition.z");      // column Id = 16
-                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalPosition.x"); // column Id = 17
-                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalPosition.y"); // column Id = 18
-                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalPosition.z"); // column Id = 19
-                analysisManager->CreateNtupleDColumn("SlitBoxHitMomentum.x");      // column Id = 20
-                analysisManager->CreateNtupleDColumn("SlitBoxHitMomentum.y");      // column Id = 21
-                analysisManager->CreateNtupleDColumn("SlitBoxHitMomentum.z");      // column Id = 22
-                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalMomentum.x"); // column Id = 23
-                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalMomentum.y"); // column Id = 24
-                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalMomentum.z"); // column Id = 25
-                analysisManager->CreateNtupleIColumn("SlitBoxCharge");             // column Id = 26
-                analysisManager->CreateNtupleIColumn("SlitBoxMass");               // column Id = 27
-                analysisManager->CreateNtupleDColumn("SlitBoxEnergy");             // column Id = 28
-                analysisManager->CreateNtupleDColumn("SlitBoxTime");               // column Id = 29
-                analysisManager->CreateNtupleDColumn("ScatteredAngleX");           // column Id = 30
-                analysisManager->CreateNtupleDColumn("ScatteredAngleY");           // column Id = 31
+                analysisManager->CreateNtupleIColumn("SlitBoxAccepted");           // column Id = 16
+                analysisManager->CreateNtupleIColumn("SlitBoxTransmitted");        // column Id = 17
+                analysisManager->CreateNtupleDColumn("SlitBoxHitPosition.x");      // column Id = 18
+                analysisManager->CreateNtupleDColumn("SlitBoxHitPosition.y");      // column Id = 19
+                analysisManager->CreateNtupleDColumn("SlitBoxHitPosition.z");      // column Id = 20
+                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalPosition.x"); // column Id = 21
+                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalPosition.y"); // column Id = 22
+                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalPosition.z"); // column Id = 23
+                analysisManager->CreateNtupleDColumn("SlitBoxHitMomentum.x");      // column Id = 24
+                analysisManager->CreateNtupleDColumn("SlitBoxHitMomentum.y");      // column Id = 25
+                analysisManager->CreateNtupleDColumn("SlitBoxHitMomentum.z");      // column Id = 26
+                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalMomentum.x"); // column Id = 27
+                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalMomentum.y"); // column Id = 28
+                analysisManager->CreateNtupleDColumn("SlitBoxHitLocalMomentum.z"); // column Id = 29
+                analysisManager->CreateNtupleIColumn("SlitBoxCharge");             // column Id = 30
+                analysisManager->CreateNtupleIColumn("SlitBoxMass");               // column Id = 31
+                analysisManager->CreateNtupleDColumn("SlitBoxEnergy");             // column Id = 32
+                analysisManager->CreateNtupleDColumn("SlitBoxTime");               // column Id = 33
+                analysisManager->CreateNtupleDColumn("ScatteredAngleX");           // column Id = 34
+                analysisManager->CreateNtupleDColumn("ScatteredAngleY");           // column Id = 35
 
-                analysisManager->CreateNtupleDColumn("MDMPositionX"); // column Id = 32
-                analysisManager->CreateNtupleDColumn("MDMPositionY"); // column Id = 33
-                analysisManager->CreateNtupleDColumn("MDMAngleX");    // column Id = 34
-                analysisManager->CreateNtupleDColumn("MDMAngleY");    // column Id = 35
+                analysisManager->CreateNtupleDColumn("MDMPositionX"); // column Id = 36
+                analysisManager->CreateNtupleDColumn("MDMPositionY"); // column Id = 37
+                analysisManager->CreateNtupleDColumn("MDMAngleX");    // column Id = 38
+                analysisManager->CreateNtupleDColumn("MDMAngleY");    // column Id = 39
 
-                analysisManager->CreateNtupleDColumn("BeamEnergy");              // column Id = 36
-                analysisManager->CreateNtupleDColumn("BeamPosition.x");          // column Id = 37
-                analysisManager->CreateNtupleDColumn("BeamPosition.y");          // column Id = 38
-                analysisManager->CreateNtupleDColumn("BeamPosition.z");          // column Id = 39
-                analysisManager->CreateNtupleDColumn("BeamMomentumDirection.x"); // column Id = 40
-                analysisManager->CreateNtupleDColumn("BeamMomentumDirection.y"); // column Id = 41
-                analysisManager->CreateNtupleDColumn("BeamMomentumDirection.z"); // column Id = 42
+                analysisManager->CreateNtupleDColumn("BeamEnergy");              // column Id = 40
+                analysisManager->CreateNtupleDColumn("BeamPosition.x");          // column Id = 41
+                analysisManager->CreateNtupleDColumn("BeamPosition.y");          // column Id = 42
+                analysisManager->CreateNtupleDColumn("BeamPosition.z");          // column Id = 43
+                analysisManager->CreateNtupleDColumn("BeamMomentumDirection.x"); // column Id = 44
+                analysisManager->CreateNtupleDColumn("BeamMomentumDirection.y"); // column Id = 45
+                analysisManager->CreateNtupleDColumn("BeamMomentumDirection.z"); // column Id = 46
 
                 analysisManager->FinishNtuple();
 
@@ -211,56 +215,60 @@ namespace MdmPpacSim
             // Fill 1st ntuple ( ntupleId = 0)
             // DeltaE detector
             analysisManager->FillNtupleDColumn(0, DeltaEEdep);
-            analysisManager->FillNtupleDColumn(1, DeltETime);
+            analysisManager->FillNtupleDColumn(1, DeltaETime);
+            analysisManager->FillNtupleIColumn(2, DeltaECharge);
+            analysisManager->FillNtupleIColumn(3, DeltaEMass);
 
             // Si detector
-            analysisManager->FillNtupleDColumn(2, SiEdep);
-            analysisManager->FillNtupleDColumn(3, SiTime);
-            analysisManager->FillNtupleDColumn(4, SiHitPosition.x());
-            analysisManager->FillNtupleDColumn(5, SiHitPosition.y());
-            analysisManager->FillNtupleDColumn(6, SiHitPosition.z());
-            analysisManager->FillNtupleDColumn(7, SiHitLocalPosition.x());
-            analysisManager->FillNtupleDColumn(8, SiHitLocalPosition.y());
-            analysisManager->FillNtupleDColumn(9, SiHitLocalPosition.z());
-            analysisManager->FillNtupleIColumn(10, SiFrontStripNo);
-            analysisManager->FillNtupleIColumn(11, SiBackStripNo);
+            analysisManager->FillNtupleDColumn(4, SiEdep);
+            analysisManager->FillNtupleDColumn(5, SiTime);
+            analysisManager->FillNtupleIColumn(6, SiCharge);
+            analysisManager->FillNtupleIColumn(7, SiMass);
+            analysisManager->FillNtupleDColumn(8, SiHitPosition.x());
+            analysisManager->FillNtupleDColumn(9, SiHitPosition.y());
+            analysisManager->FillNtupleDColumn(10, SiHitPosition.z());
+            analysisManager->FillNtupleDColumn(11, SiHitLocalPosition.x());
+            analysisManager->FillNtupleDColumn(12, SiHitLocalPosition.y());
+            analysisManager->FillNtupleDColumn(13, SiHitLocalPosition.z());
+            analysisManager->FillNtupleIColumn(14, SiFrontStripNo);
+            analysisManager->FillNtupleIColumn(15, SiBackStripNo);
 
             // Slit box
-            analysisManager->FillNtupleIColumn(12, SlitBoxAccepted);
-            analysisManager->FillNtupleIColumn(13, SlitBoxTransmitted);
-            analysisManager->FillNtupleDColumn(14, SlitBoxHitPosition.x());
-            analysisManager->FillNtupleDColumn(15, SlitBoxHitPosition.y());
-            analysisManager->FillNtupleDColumn(16, SlitBoxHitPosition.z());
-            analysisManager->FillNtupleDColumn(17, SlitBoxHitLocalPosition.x());
-            analysisManager->FillNtupleDColumn(18, SlitBoxHitLocalPosition.y());
-            analysisManager->FillNtupleDColumn(19, SlitBoxHitLocalPosition.z());
-            analysisManager->FillNtupleDColumn(20, SlitBoxHitMomentum.x());
-            analysisManager->FillNtupleDColumn(21, SlitBoxHitMomentum.y());
-            analysisManager->FillNtupleDColumn(22, SlitBoxHitMomentum.z());
-            analysisManager->FillNtupleDColumn(23, SlitBoxHitLocalMomentum.x());
-            analysisManager->FillNtupleDColumn(24, SlitBoxHitLocalMomentum.y());
-            analysisManager->FillNtupleDColumn(25, SlitBoxHitLocalMomentum.z());
-            analysisManager->FillNtupleIColumn(26, SlitBoxCharge);
-            analysisManager->FillNtupleIColumn(27, SlitBoxMass);
-            analysisManager->FillNtupleDColumn(28, SlitBoxEnergy);
-            analysisManager->FillNtupleDColumn(29, SlitBoxTime);
-            analysisManager->FillNtupleDColumn(30, ScatteredAngleX);
-            analysisManager->FillNtupleDColumn(31, ScatteredAngleY);
+            analysisManager->FillNtupleIColumn(16, SlitBoxAccepted);
+            analysisManager->FillNtupleIColumn(17, SlitBoxTransmitted);
+            analysisManager->FillNtupleDColumn(18, SlitBoxHitPosition.x());
+            analysisManager->FillNtupleDColumn(19, SlitBoxHitPosition.y());
+            analysisManager->FillNtupleDColumn(20, SlitBoxHitPosition.z());
+            analysisManager->FillNtupleDColumn(21, SlitBoxHitLocalPosition.x());
+            analysisManager->FillNtupleDColumn(22, SlitBoxHitLocalPosition.y());
+            analysisManager->FillNtupleDColumn(23, SlitBoxHitLocalPosition.z());
+            analysisManager->FillNtupleDColumn(24, SlitBoxHitMomentum.x());
+            analysisManager->FillNtupleDColumn(25, SlitBoxHitMomentum.y());
+            analysisManager->FillNtupleDColumn(26, SlitBoxHitMomentum.z());
+            analysisManager->FillNtupleDColumn(27, SlitBoxHitLocalMomentum.x());
+            analysisManager->FillNtupleDColumn(28, SlitBoxHitLocalMomentum.y());
+            analysisManager->FillNtupleDColumn(29, SlitBoxHitLocalMomentum.z());
+            analysisManager->FillNtupleIColumn(30, SlitBoxCharge);
+            analysisManager->FillNtupleIColumn(31, SlitBoxMass);
+            analysisManager->FillNtupleDColumn(32, SlitBoxEnergy);
+            analysisManager->FillNtupleDColumn(33, SlitBoxTime);
+            analysisManager->FillNtupleDColumn(34, ScatteredAngleX);
+            analysisManager->FillNtupleDColumn(35, ScatteredAngleY);
 
             // MDMTrace results
-            analysisManager->FillNtupleDColumn(32, MDMPositionX);
-            analysisManager->FillNtupleDColumn(33, MDMPositionY);
-            analysisManager->FillNtupleDColumn(34, MDMAngleX);
-            analysisManager->FillNtupleDColumn(35, MDMAngleY);
+            analysisManager->FillNtupleDColumn(36, MDMPositionX);
+            analysisManager->FillNtupleDColumn(37, MDMPositionY);
+            analysisManager->FillNtupleDColumn(38, MDMAngleX);
+            analysisManager->FillNtupleDColumn(39, MDMAngleY);
 
             // Beam
-            analysisManager->FillNtupleDColumn(36, BeamEnergy);
-            analysisManager->FillNtupleDColumn(37, BeamPosition.x());
-            analysisManager->FillNtupleDColumn(38, BeamPosition.y());
-            analysisManager->FillNtupleDColumn(39, BeamPosition.z());
-            analysisManager->FillNtupleDColumn(40, BeamMomentumDirection.x());
-            analysisManager->FillNtupleDColumn(41, BeamMomentumDirection.y());
-            analysisManager->FillNtupleDColumn(42, BeamMomentumDirection.z());
+            analysisManager->FillNtupleDColumn(40, BeamEnergy);
+            analysisManager->FillNtupleDColumn(41, BeamPosition.x());
+            analysisManager->FillNtupleDColumn(42, BeamPosition.y());
+            analysisManager->FillNtupleDColumn(43, BeamPosition.z());
+            analysisManager->FillNtupleDColumn(44, BeamMomentumDirection.x());
+            analysisManager->FillNtupleDColumn(45, BeamMomentumDirection.y());
+            analysisManager->FillNtupleDColumn(46, BeamMomentumDirection.z());
 
             analysisManager->AddNtupleRow(0);
         }

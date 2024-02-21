@@ -42,11 +42,10 @@
 namespace MdmPpacSim
 {
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
     EventAction::EventAction(RunAction *runAction)
         : G4UserEventAction(), fRunAction(runAction)
     {
-        // G4int threadId = G4Threading::G4GetThreadId();
-        // G4cout << "--->In EventAction::EventAction, threadId=" << threadId << G4endl;
         fMDMTrace = runAction->GetMDMTrace();
     }
 
@@ -98,36 +97,48 @@ namespace MdmPpacSim
             G4int nofHitsDeltaE = hcDeltaE->GetSize();
             G4double deltaEEdep = 0.;
             G4double deltaETime = 0.;
+            G4int deltaECharge = 0;
+            G4int deltaEMass = 0;
             for (int i = 0; i < nofHitsDeltaE; i++)
             {
                 deltaEEdep += (*hcDeltaE)[i]->GetEnergyDeposit();
                 deltaETime += (*hcDeltaE)[i]->GetHitTime();
+                deltaECharge += (*hcDeltaE)[i]->GetParticleCharge();
+                deltaEMass += (*hcDeltaE)[i]->GetParticleMass();
             }
             deltaEEdep = (nofHitsDeltaE > 0) ? G4RandGauss::shoot(deltaEEdep, fSiDetectorEnergyResolution * deltaEEdep / 2.355) : 0.;
             deltaETime = (nofHitsDeltaE > 0) ? (deltaETime / nofHitsDeltaE + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
-            fHistoManager->SetDeltaE(deltaEEdep, deltaETime);
+            deltaECharge = (nofHitsDeltaE > 0) ? deltaECharge / nofHitsDeltaE : 0;
+            deltaEMass = (nofHitsDeltaE > 0) ? deltaEMass / nofHitsDeltaE : 0;
+            fHistoManager->SetDeltaE(deltaEEdep, deltaETime, deltaECharge, deltaEMass);
 
             // Si detector
             DetectorHitsCollection *hcSi = (DetectorHitsCollection *)aEvent->GetHCofThisEvent()->GetHC(fHCID_Si);
             G4int nofHitsSi = hcSi->GetSize();
             G4double siEdep = 0.;
             G4double siTime = 0.;
+            G4int siCharge = 0;
+            G4int siMass = 0;
             G4ThreeVector siHitPos(0., 0., 0.);
             G4ThreeVector siHitLocalPos(0., 0., 0.);
             for (int i = 0; i < nofHitsSi; i++)
             {
                 siEdep += (*hcSi)[i]->GetEnergyDeposit();
                 siTime += (*hcSi)[i]->GetHitTime();
+                siCharge += (*hcSi)[i]->GetParticleCharge();
+                siMass += (*hcSi)[i]->GetParticleMass();
                 siHitPos += (*hcSi)[i]->GetPosition();
-                siHitLocalPos += (*hcSi)[i]->GetLocalPosition();
+                siHitLocalPos += (*hcSi)[i]->GetLocalPosition();      
             }
             siEdep = (nofHitsSi > 0) ? G4RandGauss::shoot(siEdep, fSiDetectorEnergyResolution * siEdep / 2.355) : 0.;
-            siTime = (nofHitsSi > 0) ? (siTime / nofHitsDeltaE + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
+            siTime = (nofHitsSi > 0) ? (siTime / nofHitsSi + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
+            siCharge = (nofHitsSi > 0) ? siCharge / nofHitsSi : 0;
+            siMass = (nofHitsSi > 0) ? siMass / nofHitsSi : 0;
             siHitPos = (nofHitsSi > 0) ? siHitPos / nofHitsSi : G4ThreeVector(0., 0., 0.);
             siHitLocalPos = (nofHitsSi > 0) ? siHitLocalPos / nofHitsSi : G4ThreeVector(0., 0., 0.);
             G4int siFrontStripNo = std::floor((siHitLocalPos.x() / cm + 2.5) / (5. / 16.));
             G4int siBackStripNo = std::floor((siHitLocalPos.y() / cm + 2.5) / (5. / 16.));
-            fHistoManager->SetSi(siEdep, siTime, siHitPos, siHitLocalPos, siFrontStripNo, siBackStripNo);
+            fHistoManager->SetSi(siEdep, siTime, siCharge, siMass, siHitPos, siHitLocalPos, siFrontStripNo, siBackStripNo);
 
             // Slit box
             DetectorHitsCollection *hcSlitBox = (DetectorHitsCollection *)aEvent->GetHCofThisEvent()->GetHC(fHCID_SlitBox);
@@ -171,13 +182,13 @@ namespace MdmPpacSim
                 }
                 else if (slitBoxCharge == 8 && slitBoxMass == 16) //16O
                 {
-                    fMDMTrace->SetScatteredCharge(8);
+                    fMDMTrace->SetScatteredCharge(7);
                 }
                 else if (slitBoxCharge == 8 && slitBoxMass == 18) //18O
                 {
                     fMDMTrace->SetScatteredCharge(8);
                 }
-                else if (slitBoxCharge == 10 && slitBoxMass == 20) // 20Ne
+                else if (slitBoxCharge == 10 && slitBoxMass == 20) //20Ne
                 {
                     fMDMTrace->SetScatteredCharge(8);
                 }
@@ -185,7 +196,15 @@ namespace MdmPpacSim
                 {
                     fMDMTrace->SetScatteredCharge(8);
                 }
+                else if (slitBoxCharge == 12 && slitBoxMass == 25) //25Mg
+                {
+                    fMDMTrace->SetScatteredCharge(8);
+                }
                 else if (slitBoxCharge == 12 && slitBoxMass == 26) //26Mg
+                {
+                    fMDMTrace->SetScatteredCharge(10);
+                }
+                else if (slitBoxCharge == 12 && slitBoxMass == 27) //27Mg
                 {
                     fMDMTrace->SetScatteredCharge(10);
                 }
@@ -259,7 +278,6 @@ namespace MdmPpacSim
                 ppac2HitLocalPosition += (*hcPpac2)[i]->GetLocalPosition();
             }
             ppac2HitLocalPosition = (nofHitsPpac2 > 0) ? ppac2HitLocalPosition / nofHitsPpac2 : G4ThreeVector(0., 0., 0.);
-            // ppac2HitTime = (nofHitsPpac2 > 0) ? (ppac2HitTime / nofHitsPpac2 + fTdcResolutionInNs * ns * G4RandFlat::shoot()) : 0.;
             ppac2HitTime = (nofHitsPpac2 > 0) ? G4RandGauss::shoot(ppac2HitTime / nofHitsPpac2, fTdcResolutionInNs * ns / 2.355) : 0.;
             ppac2HitEnergy = (nofHitsPpac2 > 0) ? ppac2HitEnergy / nofHitsPpac2 : 0.;
             G4double ppac2PosX = (nofHitsPpac2 > 0) ? G4RandGauss::shoot(ppac2HitLocalPosition.x(), fPpacPositionResolutionInMm * mm / 2.355) : 0.;

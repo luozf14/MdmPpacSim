@@ -53,17 +53,21 @@ namespace MdmPpacSim
 
         void SetIsTargetChamber(G4bool isTargetChamber) { fIsTargetChamber = isTargetChamber; }
 
-        void SetDeltaE(G4double edep, G4double time)
+        void SetDeltaE(G4double edep, G4double time, G4int charge, G4int mass)
         {
             DeltaEEdep = edep;
-            DeltETime = time;
+            DeltaETime = time;
+            DeltaECharge = charge;
+            DeltaEMass = mass;
         }
 
-        void SetSi(G4double edep, G4double time, G4ThreeVector hitPosition, G4ThreeVector hitLocalPosition,
+        void SetSi(G4double edep, G4double time, G4int charge, G4int mass, G4ThreeVector hitPosition, G4ThreeVector hitLocalPosition,
                    G4int frontStripNo, G4int backStripNo)
         {
             SiEdep = edep;
             SiTime = time;
+            SiCharge = charge;
+            SiMass = mass;
             SiHitPosition = hitPosition;
             SiHitLocalPosition = hitLocalPosition;
             SiFrontStripNo = frontStripNo;
@@ -130,11 +134,15 @@ namespace MdmPpacSim
 
         // DeltaE detector
         G4double DeltaEEdep;
-        G4double DeltETime;
+        G4double DeltaETime;
+        G4int DeltaECharge;
+        G4int DeltaEMass;
 
         // Si detector
         G4double SiEdep;
         G4double SiTime;
+        G4int SiCharge;
+        G4int SiMass;
         G4ThreeVector SiHitPosition;
         G4ThreeVector SiHitLocalPosition;
         G4int SiFrontStripNo;
