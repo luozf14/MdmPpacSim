@@ -34,10 +34,11 @@
 #include "G4ParticleGun.hh"
 #include "globals.hh"
 
+#include "TF1.h"
+
 class G4ParticleGun;
 class G4Event;
 class G4Box;
-
 /// The primary generator action class with particle gun.
 ///
 /// The default kinematic is a 6 MeV gamma, randomly distribued
@@ -63,6 +64,8 @@ namespace MdmPpacSim
         G4double GetBeamEnergy() { return fBeamEnergy; }
 
         void SetIsTargetChamber(G4bool isTargetChamber) { fIsTargetChamber = isTargetChamber; }
+        void SetBeamEnergyDistribution();
+        
 
     private:
         RunAction *fRunAction = nullptr;
@@ -71,6 +74,7 @@ namespace MdmPpacSim
         G4ParticleGun *fParticleGun = nullptr; // pointer a to G4 gun class
         G4double fBeamEnergy;
         BeamEmittance *fBeamEmittance = nullptr;
+        TF1 *fBeamEnergyDistri = nullptr;
 
         G4int fNumGenerated;
         G4int fTransmitted;

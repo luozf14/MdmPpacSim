@@ -84,6 +84,7 @@ namespace MdmPpacSim
 
         PrimaryGeneratorAction *pgAction = new PrimaryGeneratorAction(runAction, fIsTargetChamber, fProcessNum);
         pgAction->SetBeamEnergy(fBeamEnergy);
+        pgAction->SetBeamEnergyDistribution();
         SetUserAction(pgAction);
 
         EventAction *eventAction = new EventAction(runAction);

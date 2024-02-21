@@ -32,6 +32,8 @@
 #include "HistoManager.hh"
 #include "RunAction.hh"
 
+#include "TF1.h"
+
 #include "G4Box.hh"
 #include "G4ChargedGeantino.hh"
 #include "G4IonTable.hh"
@@ -49,7 +51,6 @@ namespace MdmPpacSim
 {
 
   //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
   PrimaryGeneratorAction::PrimaryGeneratorAction(RunAction *runAction,
                                                  G4bool isTargetChamber,
                                                  G4int procNum)
@@ -124,9 +125,16 @@ namespace MdmPpacSim
         fParticleGun->SetParticleDefinition(ion);
       }
 
-      // G4double energy = fBeamEnergy * G4UniformRand();
-      // fParticleGun->SetParticleEnergy(energy * MeV);
-      fParticleGun->SetParticleEnergy(G4RandGauss::shoot(fBeamEnergy * MeV, 0.005 * fBeamEnergy * MeV / 2.355));
+      G4double sigma = fBeamEnergy * 0.01;
+      G4double mu = fBeamEnergy + TMath::Exp(-sigma * sigma);
+      G4double energy = G4UniformRand() * mu;
+      G4double temp = G4UniformRand() * 2.0;
+      while (temp > fBeamEnergyDistri->Eval(energy))
+      {
+        energy = G4UniformRand() * mu;
+        temp = G4UniformRand() * 2.0;
+      }
+      fParticleGun->SetParticleEnergy(energy * MeV);
 
       // pencil beam
       // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1));
@@ -176,5 +184,16 @@ namespace MdmPpacSim
     fParticleGun->GeneratePrimaryVertex(anEvent);
 
     //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+  }
+
+  void PrimaryGeneratorAction::SetBeamEnergyDistribution()
+  {
+    // Define the parameters
+    G4double sigma = fBeamEnergy * 0.01;
+    G4double mu = fBeamEnergy + TMath::Exp(-sigma * sigma);
+    // Create a TF1 function for the distribution
+    fBeamEnergyDistri = new TF1("fBeamEnergyDistri", "(1.0 / (([0] - x) *[1] * TMath::Sqrt(2. * TMath::Pi()))) * (TMath::Exp(-1.0 * TMath::Power(TMath::Log(-(x - [0])), 2.) / (2. *[1] *[1])))", 0, 1);
+    fBeamEnergyDistri->SetParameters(mu, sigma);
+    fBeamEnergyDistri->SetRange(0., mu);
   }
 } // namespace MdmPpacSim
